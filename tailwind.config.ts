@@ -68,14 +68,16 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-hero': 'var(--gradient-hero)',
-				'gradient-premium': 'var(--gradient-premium)',
+				'gradient-solar': 'var(--gradient-solar)',
+				'gradient-sunrise': 'var(--gradient-sunrise)',
 				'gradient-card': 'var(--gradient-card)',
 				'gradient-accent': 'var(--gradient-accent)'
 			},
 			boxShadow: {
-				'premium': 'var(--shadow-premium)',
+				'solar': 'var(--shadow-solar)',
 				'card': 'var(--shadow-card)',
-				'glow': 'var(--shadow-glow)'
+				'glow': 'var(--shadow-glow)',
+				'sunrise': 'var(--shadow-sunrise)'
 			},
 			fontFamily: {
 				'heading': 'var(--font-heading)',

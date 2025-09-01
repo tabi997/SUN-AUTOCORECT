@@ -32,16 +32,20 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Company Info */}
             <div className="lg:col-span-1">
-              <div className="flex items-center space-x-2 mb-6">
-                <div className="w-8 h-8 bg-gradient-premium rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">P</span>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-solar rounded-full flex items-center justify-center relative">
+                  <div className="w-4 h-4 bg-primary-foreground rounded-full"></div>
+                  <div className="absolute top-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 -translate-y-1"></div>
+                  <div className="absolute right-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 translate-x-1"></div>
+                  <div className="absolute bottom-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 translate-y-1"></div>
+                  <div className="absolute left-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 -translate-x-1"></div>
                 </div>
-                <span className="text-xl font-bold font-heading">PremiumAuto</span>
+                <span className="text-xl font-bold font-heading">SUN AUTOCORECT</span>
               </div>
               
               <p className="text-muted-foreground mb-6">
-                Specialiști în vânzarea de vehicule second-hand premium. 
-                Oferim transparență, calitate și servicii complete.
+                Transparența soarelui în fiecare vehicul second-hand premium. 
+                Oferim claritate, încredere și energia pozitivă în fiecare tranzacție.
               </p>
 
               {/* Contact Info */}
@@ -52,7 +56,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center gap-3 text-sm">
                   <Mail className="h-4 w-4 text-primary" />
-                  <span>office@premiumauto.ro</span>
+                  <span>office@sunautocorect.ro</span>
                 </div>
                 <div className="flex items-start gap-3 text-sm">
                   <MapPin className="h-4 w-4 text-primary mt-0.5" />
@@ -111,7 +115,7 @@ const Footer = () => {
                   placeholder="Email-ul tău"
                   className="flex-1"
                 />
-                <Button variant="premium">
+                <Button variant="solar">
                   Abonează-te
                 </Button>
               </div>
@@ -137,25 +141,29 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-border py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            {/* Copyright */}
-            <div className="text-sm text-muted-foreground">
-              © 2024 PremiumAuto. Toate drepturile rezervate.
+        <div className="border-t border-border pt-8 mt-8 relative">
+          {/* Sunset/sunrise motif */}
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4">
+            <div className="w-8 h-4 bg-gradient-sunrise rounded-t-full opacity-30"></div>
+          </div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center space-x-3 mb-4 md:mb-0">
+              <div className="w-10 h-10 bg-gradient-solar rounded-full flex items-center justify-center relative">
+                <div className="w-4 h-4 bg-primary-foreground rounded-full"></div>
+                <div className="absolute top-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 -translate-y-1"></div>
+                <div className="absolute right-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 translate-x-1"></div>
+                <div className="absolute bottom-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 translate-y-1"></div>
+                <div className="absolute left-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 -translate-x-1"></div>
+              </div>
+              <span className="text-xl font-bold font-heading">SUN AUTOCORECT</span>
             </div>
-
-            {/* Legal Links */}
-            <div className="flex flex-wrap gap-6">
-              {legalLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
+            <p className="text-muted-foreground text-center md:text-right">
+              © 2024 SUN AUTOCORECT. Toate drepturile rezervate. <br />
+              <span className="bg-gradient-sunrise bg-clip-text text-transparent font-medium">
+                Transparența soarelui în fiecare tranzacție
+              </span>
+            </p>
           </div>
         </div>
       </div>

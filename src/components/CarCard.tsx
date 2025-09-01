@@ -60,7 +60,7 @@ const CarCard = ({
 
         {/* Featured Badge */}
         {featured && (
-          <Badge className="absolute top-4 left-4 bg-gradient-premium">
+          <Badge className="absolute top-4 left-4 bg-gradient-solar">
             Premium
           </Badge>
         )}
@@ -117,7 +117,7 @@ const CarCard = ({
 
         {/* Actions */}
         <div className="flex gap-3">
-          <Button variant="premium" className="flex-1">
+          <Button variant="solar" className="flex-1 hover:shadow-sunrise">
             Vezi detalii
           </Button>
           <Button variant="outline" size="icon">

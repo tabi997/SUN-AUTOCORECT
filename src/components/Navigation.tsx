@@ -20,11 +20,19 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-premium rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">P</span>
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-solar rounded-full flex items-center justify-center relative">
+              <div className="w-4 h-4 bg-primary-foreground rounded-full"></div>
+              <div className="absolute top-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 -translate-y-1"></div>
+              <div className="absolute top-1 right-1 w-px h-1.5 bg-primary-foreground transform rotate-45"></div>
+              <div className="absolute right-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 translate-x-1"></div>
+              <div className="absolute bottom-1 right-1 w-px h-1.5 bg-primary-foreground transform -rotate-45"></div>
+              <div className="absolute bottom-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 translate-y-1"></div>
+              <div className="absolute bottom-1 left-1 w-px h-1.5 bg-primary-foreground transform rotate-45"></div>
+              <div className="absolute left-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 -translate-x-1"></div>
+              <div className="absolute top-1 left-1 w-px h-1.5 bg-primary-foreground transform -rotate-45"></div>
             </div>
-            <span className="text-xl font-bold font-heading">PremiumAuto</span>
+            <span className="text-xl font-bold font-heading">SUN AUTOCORECT</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -49,7 +57,7 @@ const Navigation = () => {
               <User className="h-4 w-4 mr-2" />
               Autentificare
             </Button>
-            <Button variant="premium">Înregistrare</Button>
+            <Button variant="solar">Înregistrare</Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -86,7 +94,7 @@ const Navigation = () => {
                 <User className="h-4 w-4 mr-2" />
                 Autentificare
               </Button>
-              <Button variant="premium">Înregistrare</Button>
+              <Button variant="solar">Înregistrare</Button>
             </div>
           </div>
         </div>

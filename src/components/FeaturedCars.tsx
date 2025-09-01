@@ -75,12 +75,9 @@ const FeaturedCars = () => {
         </div>
 
         {/* CTA */}
-        <div className="text-center">
-          <Button variant="accent" size="lg" className="group">
-            Vezi toate mașinile
-            <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </div>
+        <Button variant="solar" size="lg" className="mx-auto hover:shadow-sunrise">
+          Vezi toate mașinile
+        </Button>
       </div>
     </section>
   );

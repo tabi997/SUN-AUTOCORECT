@@ -43,8 +43,10 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-16 bg-muted/30">
-      <div className="container mx-auto px-4">
+    <section className="py-20 relative overflow-hidden">
+      {/* Solar gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5"></div>
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
           <p className="text-primary font-medium mb-4 tracking-wide uppercase">
@@ -76,10 +78,12 @@ const Testimonials = () => {
 
                 {/* Author */}
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-premium rounded-full flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-sm">
-                      {testimonial.name.charAt(0)}
-                    </span>
+                  <div className="w-10 h-10 bg-gradient-solar rounded-full flex items-center justify-center relative">
+                    <div className="w-4 h-4 bg-primary-foreground rounded-full"></div>
+                    <div className="absolute top-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 -translate-y-1"></div>
+                    <div className="absolute right-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 translate-x-1"></div>
+                    <div className="absolute bottom-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 translate-y-1"></div>
+                    <div className="absolute left-0 top-1/2 w-2 h-px bg-primary-foreground transform -translate-y-1/2 -translate-x-1"></div>
                   </div>
                   <div>
                     <div className="font-semibold">{testimonial.name}</div>

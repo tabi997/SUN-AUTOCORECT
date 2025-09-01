@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Car, Zap, Settings } from "lucide-react";
-import heroImage from "@/assets/hero-showroom.jpg";
+import heroImage from "@/assets/hero-sunrise-road.jpg";
 
 const Hero = () => {
   return (
@@ -10,7 +10,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={heroImage}
-          alt="Premium Auto Showroom"
+          alt="Urban sunrise over road - SUN AUTOCORECT"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/30" />
@@ -22,17 +22,18 @@ const Hero = () => {
           {/* Hero Text */}
           <div className="mb-12 text-center lg:text-left">
             <p className="text-primary font-medium mb-4 tracking-wide uppercase">
-              Premium Second Hand
+              Transparență și Încredere
             </p>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading mb-6 leading-tight">
-              Mașini rulate alese cu{" "}
-              <span className="bg-gradient-premium bg-clip-text text-transparent">
-                grijă
-              </span>
+              Mașini rulate{" "}
+              <span className="bg-gradient-sunrise bg-clip-text text-transparent">
+                luminate
+              </span>{" "}
+              de încredere
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-              Fiecare autoturism este meticulos testat, verificat și certificat de experți.
-              Descoperă colecția noastră exclusivă de vehicule premium cu istoric complet de service.
+              Alege transparența sub soarele SUN AUTOCORECT. Fiecare vehicul este verificat cu atenție,
+              oferind claritatea unei zile senine în fiecare tranzacție.
             </p>
           </div>
 
@@ -92,7 +93,7 @@ const Hero = () => {
                 </SelectContent>
               </Select>
 
-              <Button variant="premium" size="lg" className="h-12">
+              <Button variant="solar" size="lg" className="h-12 hover:shadow-sunrise">
                 <Search className="h-4 w-4 mr-2" />
                 Caută
               </Button>

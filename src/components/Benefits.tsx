@@ -1,120 +1,62 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Shield, CheckCircle, RefreshCw, Users, ArrowRight } from "lucide-react";
+import { Shield, Award, Star, Users } from "lucide-react";
 
 const Benefits = () => {
   const benefits = [
     {
-      icon: Shield,
-      title: "Verificare completă",
-      description: "Fiecare vehicul trece prin 387 de puncte de control pentru a asigura calitatea maximă."
+      title: "Transparență Solară",
+      description: "Verificări complete ca lumina zilei - fiecare detaliu este clarificat pentru încrederea ta totală.",
+      icon: Shield
     },
     {
-      icon: CheckCircle,
-      title: "Garanție extinsă",
-      description: "Oferim garanție de minimum 12 luni la toate vehiculele din stoc."
+      title: "Garanție ca o Zi Senină",
+      description: "Garanție extinsă care îți oferă liniștea unei zile perfecte - fără griji, doar bucuria condusului.",
+      icon: Award
     },
     {
-      icon: RefreshCw,
-      title: "Program Buy-Back",
-      description: "Posibilitatea de a vinde înapoi vehiculul în primii 2 ani cu condiții avantajoase."
+      title: "Energie Pozitivă",
+      description: "Echipa noastră luminează fiecare pas al procesului, oferind căldura unui serviciu de încredere.",
+      icon: Star,
     },
     {
-      icon: Users,
-      title: "Suport complet",
-      description: "Echipa noastră de specialiști te însoțește pe tot parcursul procesului."
+      title: "Raze de Profesionalism",
+      description: "Specialiști care radiază experiența și pasiunea pentru vehicule de calitate superioară.",
+      icon: Users
     }
   ];
 
-  const certifications = [
-    { name: "DEKRA", logo: "🛡️" },
-    { name: "CEBIA", logo: "📋" },
-    { name: "AutoCheck", logo: "✅" }
-  ];
-
   return (
-    <section className="py-16">
+    <section className="py-20 bg-muted/30 relative overflow-hidden">
+      {/* Solar separator elements */}
+      <div className="absolute top-10 left-10 w-8 h-8 rounded-full bg-gradient-solar opacity-20"></div>
+      <div className="absolute top-32 right-20 w-6 h-6 rounded-full bg-gradient-solar opacity-30"></div>
+      <div className="absolute bottom-20 left-1/4 w-4 h-4 rounded-full bg-gradient-solar opacity-25"></div>
+      
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div>
-            <p className="text-primary font-medium mb-4 tracking-wide uppercase">
-              De ce să ne alegi pe noi?
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold font-heading mb-6">
-              Finanțare avantajoasă
-            </h2>
-            <p className="text-muted-foreground mb-8">
-              Oferim soluții complete de finanțare prin partenerii noștri financiari. 
-              Avantaje exclusive pentru clienții noștri cu rate începând de la 0% dobândă 
-              pentru perioade limitate și fără avans inițial.
-            </p>
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold font-heading mb-4">
+            De ce să alegi <span className="bg-gradient-sunrise bg-clip-text text-transparent">SUN AUTOCORECT</span>?
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Transparența ca lumina soarelui în fiecare tranzacție - liniștea unei zile senine
+          </p>
+        </div>
 
-            {/* Benefits List */}
-            <div className="space-y-6 mb-8">
-              {benefits.map((benefit, index) => {
-                const Icon = benefit.icon;
-                return (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-2">{benefit.title}</h3>
-                      <p className="text-muted-foreground text-sm">{benefit.description}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Certifications */}
-            <div className="mb-8">
-              <p className="text-sm text-muted-foreground mb-4">Certificări și parteneriate:</p>
-              <div className="flex items-center gap-6">
-                {certifications.map((cert, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span className="text-2xl">{cert.logo}</span>
-                    <span className="font-medium">{cert.name}</span>
-                  </div>
-                ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {benefits.map((benefit) => (
+            <div
+              key={benefit.title}
+              className="bg-card border border-border rounded-2xl p-8 hover:shadow-sunrise transition-all duration-300 hover:scale-105 relative overflow-hidden"
+            >
+              {/* Circular solar element behind card */}
+              <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-solar opacity-10"></div>
+              <div className="w-16 h-16 bg-primary/20 rounded-xl flex items-center justify-center mb-6 relative z-10">
+                <benefit.icon className="h-8 w-8 text-primary" />
               </div>
+              <h3 className="text-xl font-bold font-heading mb-4">{benefit.title}</h3>
+              <p className="text-muted-foreground">{benefit.description}</p>
             </div>
-
-            {/* CTA */}
-            <Button variant="premium" size="lg" className="group">
-              Solicită finanțare
-              <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </div>
-
-          {/* Visual */}
-          <div className="bg-gradient-card rounded-2xl p-8 text-center">
-            <div className="mb-6">
-              <div className="text-6xl font-bold text-primary mb-2">0%</div>
-              <p className="text-xl font-semibold">Dobândă pe primele 6 luni</p>
-              <p className="text-muted-foreground">pentru vehicule selectate</p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-background/50 rounded-xl p-4">
-                <div className="text-2xl font-bold text-accent">24-84</div>
-                <div className="text-sm text-muted-foreground">luni perioada</div>
-              </div>
-              <div className="bg-background/50 rounded-xl p-4">
-                <div className="text-2xl font-bold text-accent">Fără</div>
-                <div className="text-sm text-muted-foreground">avans inițial</div>
-              </div>
-            </div>
-
-            <Badge className="bg-gradient-premium mb-4">
-              Ofertă limitată
-            </Badge>
-            
-            <p className="text-sm text-muted-foreground">
-              *Oferta este valabilă pentru vehiculele marcate corespunzător și este supusă aprobării financiare.
-            </p>
-          </div>
+          ))}
         </div>
       </div>
     </section>
