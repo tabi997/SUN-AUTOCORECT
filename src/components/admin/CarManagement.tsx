@@ -30,6 +30,7 @@ import { carService } from '@/lib/services'
 import { CarWithImages, CarImage } from '@/lib/supabase'
 import { useToast } from '@/hooks/use-toast'
 import ImageUpload from './ImageUpload'
+import AutovitImport from './AutovitImport'
 
 const CarManagement = () => {
   const [cars, setCars] = useState<CarWithImages[]>([])
@@ -185,6 +186,9 @@ const CarManagement = () => {
 
   return (
     <div className="space-y-6">
+      {/* Import Autovit */}
+      <AutovitImport />
+
       {/* Cars Table */}
       <Card>
         <CardHeader>
