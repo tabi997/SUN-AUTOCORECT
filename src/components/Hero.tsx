@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Car, Zap, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-sunrise-road.jpg";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleViewAllCars = () => {
+    navigate("/masini-in-stoc");
+  };
+
+  const handleSellCar = () => {
+    navigate("/vinde-masina");
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
@@ -102,10 +113,10 @@ const Hero = () => {
 
           {/* Quick Actions */}
           <div className="flex flex-wrap gap-4 mt-8">
-            <Button variant="accent" size="lg">
+            <Button variant="accent" size="lg" onClick={handleViewAllCars}>
               Vezi toate mașinile
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" onClick={handleSellCar}>
               Vinde mașina ta
             </Button>
           </div>
@@ -116,12 +127,12 @@ const Hero = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
         <div className="flex items-center space-x-8 text-center">
           <div>
-            <div className="text-2xl font-bold text-primary">387+</div>
-            <div className="text-sm text-muted-foreground">Mașini în stoc</div>
+            <div className="text-2xl font-bold text-primary">40+</div>
+            <div className="text-sm text-muted-foreground">Mașini vândute</div>
           </div>
           <div className="w-px h-12 bg-border"></div>
           <div>
-            <div className="text-2xl font-bold text-primary">2022</div>
+            <div className="text-2xl font-bold text-primary">2008</div>
             <div className="text-sm text-muted-foreground">Anul înființării</div>
           </div>
           <div className="w-px h-12 bg-border"></div>

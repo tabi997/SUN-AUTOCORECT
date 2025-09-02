@@ -1,27 +1,37 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Heart, User } from "lucide-react";
+import { Menu, X, Heart, User, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
     { label: "Acasă", href: "/" },
     { label: "Mașini în Stoc", href: "/masini-in-stoc" },
-    { label: "Mașină la comandă", href: "#custom" },
-    { label: "Finanțare", href: "#financing" },
-    { label: "Vinde mașina", href: "#sell" },
-    { label: "Despre noi", href: "#about" },
+    { label: "Vinde mașina", href: "/vinde-masina" },
+    { label: "Despre noi", href: "/despre-noi" },
   ];
+
+  const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
+
+  const handlePhoneClick = () => {
+    window.location.href = `tel:${phoneNumber.replace(/\s/g, "")}`;
+  };
+
+  // Scroll to top when location changes (including refresh)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
             <div className="w-10 h-10 bg-gradient-solar rounded-full flex items-center justify-center relative">
               <div className="w-4 h-4 bg-primary-foreground rounded-full"></div>
               <div className="absolute top-0 left-1/2 w-px h-2 bg-primary-foreground transform -translate-x-1/2 -translate-y-1"></div>
@@ -34,7 +44,7 @@ const Navigation = () => {
               <div className="absolute top-1 left-1 w-px h-1.5 bg-primary-foreground transform -rotate-45"></div>
             </div>
             <span className="text-xl font-bold font-heading">SUN AUTOCORECT</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
@@ -53,6 +63,14 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" size="icon">
               <Heart className="h-5 w-5" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              onClick={handlePhoneClick}
+              className="flex items-center gap-2 text-primary hover:text-primary/80"
+            >
+              <Phone className="h-4 w-4" />
+              <span className="font-medium">{phoneNumber}</span>
             </Button>
             <Link to="/login">
               <Button variant="outline">
@@ -93,6 +111,14 @@ const Navigation = () => {
               </Link>
             ))}
             <div className="flex flex-col space-y-2 pt-4 border-t border-border">
+              <Button 
+                variant="ghost" 
+                onClick={handlePhoneClick}
+                className="justify-start w-full text-primary hover:text-primary/80"
+              >
+                <Phone className="h-4 w-4 mr-2" />
+                {phoneNumber}
+              </Button>
               <Link to="/login">
                 <Button variant="outline" className="justify-start w-full">
                   <User className="h-4 w-4 mr-2" />

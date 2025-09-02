@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import Navigation from "@/components/Navigation"
 import Footer from "@/components/Footer"
 import { Button } from "@/components/ui/button"
@@ -43,6 +43,7 @@ const StockCars = () => {
   })
   const [showFilters, setShowFilters] = useState(false)
   const { toast } = useToast()
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchCars()
@@ -112,6 +113,22 @@ const StockCars = () => {
   const getPrimaryImage = (car: CarWithImages) => {
     const primaryImage = car.images.find(img => img.is_primary)
     return primaryImage?.image_url || car.image_url || '/src/assets/placeholder.svg'
+  }
+
+  const handleCarClick = (carId: string | number) => {
+    navigate(`/masina/${carId}`)
+  }
+
+  const handleViewDetails = (e: React.MouseEvent, carId: string | number) => {
+    e.stopPropagation() // Previne propagarea click-ului către card
+    navigate(`/masina/${carId}`)
+  }
+
+  const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
+
+  const handleContactClick = (e: React.MouseEvent, carId: string | number) => {
+    e.stopPropagation() // Previne propagarea click-ului către card
+    window.location.href = `tel:${phoneNumber.replace(/\s/g, "")}`;
   }
 
   if (loading) {
@@ -329,7 +346,11 @@ const StockCars = () => {
               {viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredCars.map((car) => (
-                    <Card key={car.id} className="group hover:shadow-lg transition-all duration-300">
+                    <Card 
+                      key={car.id} 
+                      className="group hover:shadow-lg transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCarClick(car.id)}
+                    >
                       <div className="relative">
                         <div className="aspect-[4/3] overflow-hidden rounded-t-lg">
                           <img
@@ -393,11 +414,20 @@ const StockCars = () => {
                         )}
 
                         <div className="flex items-center justify-between">
-                          <Button variant="outline" size="sm" className="flex items-center gap-2">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="flex items-center gap-2"
+                            onClick={(e) => handleViewDetails(e, car.id)}
+                          >
                             <Eye className="h-4 w-4" />
                             Vezi detalii
                           </Button>
-                          <Button size="sm" className="flex items-center gap-2">
+                          <Button 
+                            size="sm" 
+                            className="flex items-center gap-2"
+                            onClick={(e) => handleContactClick(e, car.id)}
+                          >
                             <Car className="h-4 w-4" />
                             Contactează
                           </Button>
@@ -409,7 +439,11 @@ const StockCars = () => {
               ) : (
                 <div className="space-y-4">
                   {filteredCars.map((car) => (
-                    <Card key={car.id} className="group hover:shadow-md transition-all duration-300">
+                    <Card 
+                      key={car.id} 
+                      className="group hover:shadow-md transition-all duration-300 cursor-pointer"
+                      onClick={() => handleCarClick(car.id)}
+                    >
                       <div className="flex">
                         <div className="w-48 h-32 relative">
                           <img
@@ -475,11 +509,18 @@ const StockCars = () => {
                             </div>
                             
                             <div className="flex items-center gap-2">
-                              <Button variant="outline" size="sm">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={(e) => handleViewDetails(e, car.id)}
+                              >
                                 <Eye className="h-4 w-4 mr-2" />
                                 Detalii
                               </Button>
-                              <Button size="sm">
+                              <Button 
+                                size="sm"
+                                onClick={(e) => handleContactClick(e, car.id)}
+                              >
                                 <Car className="h-4 w-4 mr-2" />
                                 Contactează
                               </Button>
