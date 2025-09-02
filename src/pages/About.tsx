@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Car, CheckCircle, Clock, Heart, MapPin, Phone, Mail, Users, Award, Shield, TrendingUp, Sun } from "lucide-react";
+import { useContact } from "@/lib/contact-context";
 
 const About = () => {
+  const { contactInfo } = useContact();
   const companyStats = [
     { number: "20+", label: "Ani de experiență", icon: <Award className="h-6 w-6" /> },
     { number: "500+", label: "Mașini vândute", icon: <Car className="h-6 w-6" /> },
@@ -171,8 +173,7 @@ const About = () => {
                   <div>
                     <p className="font-medium">Adresa</p>
                     <p className="text-sm text-muted-foreground">
-                      Strada Exemplului, Nr. 123<br />
-                      Sector 1, București, România
+                      {contactInfo ? contactInfo.address : "Strada Exemplului, Nr. 123\nSector 1, București, România"}
                     </p>
                   </div>
                 </div>
@@ -180,34 +181,58 @@ const About = () => {
                   <Phone className="h-5 w-5 text-primary" />
                   <div>
                     <p className="font-medium">Telefon</p>
-                    <p className="text-sm text-muted-foreground">+40 21 123 4567</p>
+                    <p className="text-sm text-muted-foreground">
+                      {contactInfo ? (
+                        <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="hover:text-primary transition-colors">
+                          {contactInfo.phone}
+                        </a>
+                      ) : (
+                        "+40 21 123 4567"
+                      )}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-primary" />
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-sm text-muted-foreground">contact@sunautocorrect.ro</p>
+                    <p className="text-sm text-muted-foreground">
+                      {contactInfo ? (
+                        <a href={`mailto:${contactInfo.email}`} className="hover:text-primary transition-colors">
+                          {contactInfo.email}
+                        </a>
+                      ) : (
+                        "contact@sunautocorrect.ro"
+                      )}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
             <div>
               <h3 className="text-xl font-semibold mb-6">Program de funcționare</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span>Luni - Vineri:</span>
-                  <span className="font-medium">09:00 - 18:00</span>
+              {contactInfo ? (
+                <div className="space-y-3">
+                  <div className="whitespace-pre-line text-sm text-muted-foreground">
+                    {contactInfo.working_hours}
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Sâmbătă:</span>
-                  <span className="font-medium">09:00 - 16:00</span>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span>Luni - Vineri:</span>
+                    <span className="font-medium">09:00 - 18:00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Sâmbătă:</span>
+                    <span className="font-medium">09:00 - 16:00</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Duminică:</span>
+                    <span className="font-medium">Închis</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Duminică:</span>
-                  <span className="font-medium">Închis</span>
-                </div>
-              </div>
+              )}
               <div className="mt-6 p-4 rounded-lg bg-primary/10 border border-primary/20">
                 <p className="text-sm text-primary font-medium">
                   Pentru programări în afara programului normal, ne poți contacta telefonic 

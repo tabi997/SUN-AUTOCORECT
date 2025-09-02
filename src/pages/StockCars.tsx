@@ -25,6 +25,7 @@ import {
 import { carService } from "@/lib/services"
 import { CarWithImages } from "@/lib/supabase"
 import { useToast } from "@/hooks/use-toast"
+import { useContact } from "@/lib/contact-context"
 
 const StockCars = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -45,6 +46,7 @@ const StockCars = () => {
   const [showFilters, setShowFilters] = useState(false)
   const { toast } = useToast()
   const navigate = useNavigate()
+  const { contactInfo } = useContact()
 
   useEffect(() => {
     fetchCars()
@@ -127,7 +129,7 @@ const StockCars = () => {
     navigate(`/masina/${carId}`)
   }
 
-  const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
+  const phoneNumber = contactInfo?.phone || "+40 745 123 456";
 
   const handleContactClick = (e: React.MouseEvent, carId: string | number) => {
     e.stopPropagation() // Previne propagarea click-ului către card

@@ -13,11 +13,13 @@ import {
   Plus, 
   TrendingUp, 
   Calendar,
-  DollarSign
+  DollarSign,
+  Phone
 } from 'lucide-react'
 import CarManagement from '@/components/admin/CarManagement'
 import LeadManagement from '@/components/admin/LeadManagement'
 import NewsletterManagement from '@/components/admin/NewsletterManagement'
+import ContactManagement from '@/components/admin/ContactManagement'
 import DashboardStats from '@/components/admin/DashboardStats'
 import AdminErrorBoundary from '@/components/admin/AdminErrorBoundary'
 
@@ -84,7 +86,7 @@ const Admin = () => {
         {/* Main Content */}
         <main className="w-full max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 overflow-x-hidden">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
-            <TabsList className="grid w-full grid-cols-4 h-auto">
+            <TabsList className="grid w-full grid-cols-5 h-auto">
               <TabsTrigger value="dashboard" className="flex flex-col items-center space-y-1 text-xs py-3">
                 <TrendingUp className="h-4 w-4" />
                 <span>Stats</span>
@@ -100,6 +102,10 @@ const Admin = () => {
               <TabsTrigger value="newsletter" className="flex flex-col items-center space-y-1 text-xs py-3">
                 <Mail className="h-4 w-4" />
                 <span>Mail</span>
+              </TabsTrigger>
+              <TabsTrigger value="contact" className="flex flex-col items-center space-y-1 text-xs py-3">
+                <Phone className="h-4 w-4" />
+                <span>Contact</span>
               </TabsTrigger>
             </TabsList>
 
@@ -144,6 +150,18 @@ const Admin = () => {
               </div>
               <AdminErrorBoundary>
                 <NewsletterManagement />
+              </AdminErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="contact" className="space-y-4 sm:space-y-6">
+              <div>
+                <h2 className="text-xl font-bold">Gestionare Informații Contact</h2>
+                <p className="text-sm text-muted-foreground">
+                  Editează informațiile de contact afișate în footer, pagina de contact și alte locuri
+                </p>
+              </div>
+              <AdminErrorBoundary>
+                <ContactManagement />
               </AdminErrorBoundary>
             </TabsContent>
           </Tabs>

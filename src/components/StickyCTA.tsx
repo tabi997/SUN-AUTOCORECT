@@ -1,17 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Phone, Mail } from "lucide-react";
+import { useContact } from "@/lib/contact-context";
 
 interface StickyCTAProps {
   onContact?: () => void;
-  phoneNumber?: string;
-  email?: string;
 }
 
-export function StickyCTA({ 
-  onContact, 
-  phoneNumber = "+40 21 123 4567",
-  email = "contact@sunautocorrect.ro"
-}: StickyCTAProps) {
+export function StickyCTA({ onContact }: StickyCTAProps) {
+  const { contactInfo, loading } = useContact();
+  
+  const phoneNumber = contactInfo?.phone || "+40 21 123 4567";
+  const email = contactInfo?.email || "contact@sunautocorrect.ro";
   const handlePhoneCall = () => {
     window.open(`tel:${phoneNumber}`);
   };

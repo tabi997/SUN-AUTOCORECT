@@ -73,3 +73,13 @@ export interface NewsletterSubscription {
   created_at: string
   active: boolean
 }
+
+export interface ContactInfo {
+  id: number
+  phone: string
+  email: string
+  address: string
+  working_hours: string
+  created_at: string
+  updated_at: string
+}

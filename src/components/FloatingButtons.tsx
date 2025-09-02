@@ -3,12 +3,14 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle, ArrowUp, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { useContact } from "@/lib/contact-context";
 
 const FloatingButtons = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const navigate = useNavigate();
+  const { contactInfo } = useContact();
 
-  const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
+  const phoneNumber = contactInfo?.phone || "+40 745 123 456";
   const whatsappNumber = phoneNumber.replace(/\s/g, "");
 
   const handleWhatsAppClick = () => {

@@ -4,11 +4,13 @@ import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, Shield, File
 import { useState } from "react";
 import { newsletterService } from "@/lib/services";
 import { useToast } from "@/hooks/use-toast";
+import { useContact } from "@/lib/contact-context";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
   const { toast } = useToast();
+  const { contactInfo, loading } = useContact();
 
   const handleSubscribe = async () => {
     // Validare email
@@ -112,22 +114,36 @@ const Footer = () => {
 
               {/* Contact Info - Compact */}
               <div className="grid grid-cols-1 gap-1.5 sm:gap-2">
-                <div className="flex items-center gap-2 text-xs sm:text-sm">
-                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
-                  <span>+40 721 234 567</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs sm:text-sm">
-                  <Mail className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
-                  <span className="break-all">office@sunautocorect.ro</span>
-                </div>
-                <div className="flex items-start gap-2 text-xs sm:text-sm">
-                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary mt-0.5 flex-shrink-0" />
-                  <span>Strada Principală 123, București</span>
-                </div>
-                <div className="flex items-center gap-2 text-xs sm:text-sm">
-                  <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
-                  <span>Lun-Vin: 9:00-18:00</span>
-                </div>
+                {loading ? (
+                  <div className="flex items-center gap-2 text-xs sm:text-sm">
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-muted rounded animate-pulse" />
+                    <span className="text-muted-foreground">Se încarcă...</span>
+                  </div>
+                ) : contactInfo ? (
+                  <>
+                    <div className="flex items-center gap-2 text-xs sm:text-sm">
+                      <Phone className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
+                      <span>{contactInfo.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs sm:text-sm">
+                      <Mail className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
+                      <span className="break-all">{contactInfo.email}</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-xs sm:text-sm">
+                      <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary mt-0.5 flex-shrink-0" />
+                      <span>{contactInfo.address}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs sm:text-sm">
+                      <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
+                      <span>{contactInfo.working_hours}</span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center gap-2 text-xs sm:text-sm">
+                    <div className="w-3 h-3 sm:w-4 sm:h-4 bg-muted rounded" />
+                    <span className="text-muted-foreground">Informații indisponibile</span>
+                  </div>
+                )}
               </div>
             </div>
 

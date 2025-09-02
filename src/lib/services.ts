@@ -1,4 +1,4 @@
-import { supabase, Car, CarImage, CarWithImages, Lead, NewsletterSubscription } from './supabase'
+import { supabase, Car, CarImage, CarWithImages, Lead, NewsletterSubscription, ContactInfo } from './supabase'
 
 // Servicii pentru mașini
 export const carService = {
@@ -258,5 +258,38 @@ export const newsletterService = {
       .eq('id', id)
     
     if (error) throw error
+  }
+}
+
+// Servicii pentru informații de contact
+export const contactService = {
+  // Obține informațiile de contact
+  async getContactInfo(): Promise<ContactInfo | null> {
+    const { data, error } = await supabase
+      .from('contact_info')
+      .select('*')
+      .order('id', { ascending: true })
+      .limit(1)
+      .single()
+    
+    if (error) {
+      console.error('Error fetching contact info:', error)
+      return null
+    }
+    
+    return data
+  },
+
+  // Actualizează informațiile de contact
+  async updateContactInfo(updates: Partial<Omit<ContactInfo, 'id' | 'created_at' | 'updated_at'>>): Promise<ContactInfo> {
+    const { data, error } = await supabase
+      .from('contact_info')
+      .update(updates)
+      .eq('id', 1)
+      .select()
+      .single()
+    
+    if (error) throw error
+    return data
   }
 }

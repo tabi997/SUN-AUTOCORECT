@@ -28,6 +28,7 @@ import {
 import { CarWithImages } from "@/lib/supabase";
 import { carService } from "@/lib/services";
 import { useToast } from "@/hooks/use-toast";
+import { useContact } from "@/lib/contact-context";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -37,6 +38,7 @@ const CarDetails = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { contactInfo } = useContact();
 
   // Fetch car data based on ID from URL
   useEffect(() => {
@@ -530,15 +532,33 @@ const CarDetails = () => {
               <CardContent className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-sm">+40 21 123 4567</span>
+                  <span className="text-sm">
+                    {contactInfo ? (
+                      <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="hover:text-primary transition-colors">
+                        {contactInfo.phone}
+                      </a>
+                    ) : (
+                      "+40 21 123 4567"
+                    )}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-sm">contact@sunautocorrect.ro</span>
+                  <span className="text-sm">
+                    {contactInfo ? (
+                      <a href={`mailto:${contactInfo.email}`} className="hover:text-primary transition-colors">
+                        {contactInfo.email}
+                      </a>
+                    ) : (
+                      "contact@sunautocorrect.ro"
+                    )}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-sm">București, Sector 1</span>
+                  <span className="text-sm">
+                    {contactInfo ? contactInfo.address : "București, Sector 1"}
+                  </span>
                 </div>
               </CardContent>
             </Card>

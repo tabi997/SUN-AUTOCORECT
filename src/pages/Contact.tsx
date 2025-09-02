@@ -9,6 +9,7 @@ import { leadService } from "@/lib/services";
 import { Mail, Phone, MapPin, Clock, Send, Sun } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useContact } from "@/lib/contact-context";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { contactInfo, loading } = useContact();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -282,11 +284,20 @@ const Contact = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-base sm:text-lg mb-2">Adresa noastră</h3>
-                            <p className="text-sm sm:text-base text-muted-foreground">
-                              Strada Exemplului, Nr. 123<br />
-                              Sectorul 1, București<br />
-                              România
-                            </p>
+                            {loading ? (
+                              <div className="space-y-2">
+                                <div className="h-4 bg-muted rounded animate-pulse" />
+                                <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
+                              </div>
+                            ) : contactInfo ? (
+                              <p className="text-sm sm:text-base text-muted-foreground whitespace-pre-line">
+                                {contactInfo.address}
+                              </p>
+                            ) : (
+                              <p className="text-sm sm:text-base text-muted-foreground">
+                                Informații indisponibile
+                              </p>
+                            )}
                           </div>
                         </div>
                       </CardContent>
@@ -300,11 +311,19 @@ const Contact = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-base sm:text-lg mb-2">Telefon</h3>
-                            <p className="text-sm sm:text-base text-muted-foreground">
-                              <a href="tel:+40123456789" className="hover:text-primary transition-colors">
-                                +40 123 456 789
-                              </a>
-                            </p>
+                            {loading ? (
+                              <div className="h-4 bg-muted rounded animate-pulse w-32" />
+                            ) : contactInfo ? (
+                              <p className="text-sm sm:text-base text-muted-foreground">
+                                <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="hover:text-primary transition-colors">
+                                  {contactInfo.phone}
+                                </a>
+                              </p>
+                            ) : (
+                              <p className="text-sm sm:text-base text-muted-foreground">
+                                Informații indisponibile
+                              </p>
+                            )}
                           </div>
                         </div>
                       </CardContent>
@@ -318,11 +337,19 @@ const Contact = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-base sm:text-lg mb-2">Email</h3>
-                            <p className="text-sm sm:text-base text-muted-foreground">
-                              <a href="mailto:contact@sunautocorect.ro" className="hover:text-primary transition-colors break-all">
-                                contact@sunautocorect.ro
-                              </a>
-                            </p>
+                            {loading ? (
+                              <div className="h-4 bg-muted rounded animate-pulse w-48" />
+                            ) : contactInfo ? (
+                              <p className="text-sm sm:text-base text-muted-foreground">
+                                <a href={`mailto:${contactInfo.email}`} className="hover:text-primary transition-colors break-all">
+                                  {contactInfo.email}
+                                </a>
+                              </p>
+                            ) : (
+                              <p className="text-sm sm:text-base text-muted-foreground">
+                                Informații indisponibile
+                              </p>
+                            )}
                           </div>
                         </div>
                       </CardContent>
@@ -336,11 +363,21 @@ const Contact = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-base sm:text-lg mb-2">Program de lucru</h3>
-                            <p className="text-sm sm:text-base text-muted-foreground">
-                              <strong>Luni - Vineri:</strong> 9:00 - 18:00<br />
-                              <strong>Sâmbătă:</strong> 9:00 - 14:00<br />
-                              <strong>Duminică:</strong> Închis
-                            </p>
+                            {loading ? (
+                              <div className="space-y-2">
+                                <div className="h-4 bg-muted rounded animate-pulse" />
+                                <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
+                                <div className="h-4 bg-muted rounded animate-pulse w-1/2" />
+                              </div>
+                            ) : contactInfo ? (
+                              <p className="text-sm sm:text-base text-muted-foreground whitespace-pre-line">
+                                {contactInfo.working_hours}
+                              </p>
+                            ) : (
+                              <p className="text-sm sm:text-base text-muted-foreground">
+                                Informații indisponibile
+                              </p>
+                            )}
                           </div>
                         </div>
                       </CardContent>

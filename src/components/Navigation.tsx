@@ -3,10 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Heart, User, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useContact } from "@/lib/contact-context";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { contactInfo } = useContact();
 
   const navItems = [
     { label: "Acasă", href: "/" },
@@ -16,7 +18,7 @@ const Navigation = () => {
     { label: "Contact", href: "/contact" },
   ];
 
-  const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
+  const phoneNumber = contactInfo?.phone || "+40 745 123 456";
 
   const handlePhoneClick = () => {
     window.location.href = `tel:${phoneNumber.replace(/\s/g, "")}`;
