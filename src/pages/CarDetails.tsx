@@ -183,56 +183,56 @@ const CarDetails = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="container mx-auto px-4 py-8 pt-20">
+      <div className="container mx-auto px-4 py-6 sm:py-8 pt-20">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/masini-in-stoc')}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/masini-in-stoc')} className="text-xs sm:text-sm">
+            <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
             Înapoi la mașini
           </Button>
           <span>/</span>
-          <span>{car.brand}</span>
+          <span className="truncate">{car.brand}</span>
           <span>/</span>
-          <span>{car.model}</span>
+          <span className="truncate">{car.model}</span>
         </div>
 
         {/* Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-8">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
               {car.featured && (
-                <Badge className="bg-gradient-solar">
+                <Badge className="bg-gradient-solar text-xs sm:text-sm">
                   <Star className="h-3 w-3 mr-1" />
                   Premium
                 </Badge>
               )}
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="text-xs sm:text-sm">
                 {car.year}
               </Badge>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold font-heading mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading mb-2 leading-tight">
               {car.brand} {car.model}
             </h1>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground">
               {car.kilometers.toLocaleString()} km • {car.fuel} • {car.transmission}
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="icon" onClick={handleFavorite}>
-              <Heart className={`h-5 w-5 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
+          <div className="flex items-center gap-2 sm:gap-3 self-end">
+            <Button variant="outline" size="icon" onClick={handleFavorite} className="h-9 w-9 sm:h-10 sm:w-10">
+              <Heart className={`h-4 w-4 sm:h-5 sm:w-5 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
             </Button>
-            <Button variant="outline" size="icon" onClick={handleShare}>
-              <Share2 className="h-5 w-5" />
+            <Button variant="outline" size="icon" onClick={handleShare} className="h-9 w-9 sm:h-10 sm:w-10">
+              <Share2 className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Image Gallery */}
-            <div className="mb-8">
-              <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 group">
+            <div className="mb-6 sm:mb-8">
+              <div className="relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden mb-3 sm:mb-4 group">
                 <img
                   src={car.images[selectedImageIndex]?.image_url || primaryImage}
                   alt={`${car.brand} ${car.model}`}
@@ -245,37 +245,37 @@ const CarDetails = () => {
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                      className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90 h-8 w-8 sm:h-10 sm:w-10"
                       onClick={handlePreviousImage}
                     >
-                      <ChevronLeft className="h-5 w-5" />
+                      <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                      className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90 h-8 w-8 sm:h-10 sm:w-10"
                       onClick={handleNextImage}
                     >
-                      <ChevronRight className="h-5 w-5" />
+                      <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                   </>
                 )}
                 
                 {/* Image Counter */}
                 {car.images.length > 1 && (
-                  <div className="absolute bottom-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-background/80 backdrop-blur-sm px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                     {selectedImageIndex + 1} / {car.images.length}
                   </div>
                 )}
               </div>
               
               {car.images.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto">
+                <div className="flex gap-2 overflow-x-auto pb-2">
                   {car.images.map((image, index) => (
                     <button
                       key={image.id}
                       onClick={() => handleImageClick(index)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all ${
                         index === selectedImageIndex 
                           ? 'border-primary' 
                           : 'border-border hover:border-primary/50'
@@ -293,83 +293,83 @@ const CarDetails = () => {
             </div>
 
             {/* Tabs */}
-            <Tabs defaultValue="description" className="mb-8">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="description">Descriere</TabsTrigger>
-                <TabsTrigger value="specifications">Specificații</TabsTrigger>
-                <TabsTrigger value="features">Caracteristici</TabsTrigger>
+            <Tabs defaultValue="description" className="mb-6 sm:mb-8">
+              <TabsList className="grid w-full grid-cols-3 h-auto">
+                <TabsTrigger value="description" className="text-xs sm:text-sm py-2 sm:py-3">Descriere</TabsTrigger>
+                <TabsTrigger value="specifications" className="text-xs sm:text-sm py-2 sm:py-3">Specificații</TabsTrigger>
+                <TabsTrigger value="features" className="text-xs sm:text-sm py-2 sm:py-3">Caracteristici</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="description" className="mt-6">
+              <TabsContent value="description" className="mt-4 sm:mt-6">
                 <Card>
-                  <CardContent className="pt-6">
-                    <p className="text-muted-foreground leading-relaxed">
+                  <CardContent className="pt-4 sm:pt-6">
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                       {car.description || "Nu există o descriere disponibilă pentru această mașină."}
                     </p>
                   </CardContent>
                 </Card>
               </TabsContent>
               
-              <TabsContent value="specifications" className="mt-6">
+              <TabsContent value="specifications" className="mt-4 sm:mt-6">
                 <Card>
-                  <CardContent className="pt-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg mb-4">Informații tehnice</h3>
-                        <div className="space-y-3">
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Marca</span>
-                            <span className="font-medium">{car.brand}</span>
+                  <CardContent className="pt-4 sm:pt-6">
+                    <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Informații tehnice</h3>
+                        <div className="space-y-2 sm:space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs sm:text-sm text-muted-foreground">Marca</span>
+                            <span className="font-medium text-xs sm:text-sm">{car.brand}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Modelul</span>
-                            <span className="font-medium">{car.model}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs sm:text-sm text-muted-foreground">Modelul</span>
+                            <span className="font-medium text-xs sm:text-sm">{car.model}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Anul</span>
-                            <span className="font-medium">{car.year}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs sm:text-sm text-muted-foreground">Anul</span>
+                            <span className="font-medium text-xs sm:text-sm">{car.year}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Kilometri</span>
-                            <span className="font-medium">{car.kilometers.toLocaleString()} km</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs sm:text-sm text-muted-foreground">Kilometri</span>
+                            <span className="font-medium text-xs sm:text-sm">{car.kilometers.toLocaleString()} km</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Combustibil</span>
-                            <span className="font-medium">{car.fuel}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs sm:text-sm text-muted-foreground">Combustibil</span>
+                            <span className="font-medium text-xs sm:text-sm">{car.fuel}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Transmisie</span>
-                            <span className="font-medium">{car.transmission}</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs sm:text-sm text-muted-foreground">Transmisie</span>
+                            <span className="font-medium text-xs sm:text-sm">{car.transmission}</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">Putere</span>
-                            <span className="font-medium">{car.power} CP</span>
+                          <div className="flex justify-between items-center">
+                            <span className="text-xs sm:text-sm text-muted-foreground">Putere</span>
+                            <span className="font-medium text-xs sm:text-sm">{car.power} CP</span>
                           </div>
                         </div>
                       </div>
                       
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg mb-4">Caracteristici</h3>
-                        <div className="space-y-3">
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Caracteristici</h3>
+                        <div className="space-y-2 sm:space-y-3">
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Primul proprietar</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Primul proprietar</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Întreținut la reprezentanță</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Întreținut la reprezentanță</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Fără accidente</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Fără accidente</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Istoric complet</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Istoric complet</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Garantie</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Garantie</span>
                           </div>
                         </div>
                       </div>
@@ -378,50 +378,50 @@ const CarDetails = () => {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="features" className="mt-6">
+              <TabsContent value="features" className="mt-4 sm:mt-6">
                 <Card>
-                  <CardContent className="pt-6">
-                    <div className="grid md:grid-cols-2 gap-6">
+                  <CardContent className="pt-4 sm:pt-6">
+                    <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                       <div>
-                        <h3 className="font-semibold text-lg mb-4">Confort</h3>
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Confort</h3>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Aer condiționat</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Aer condiționat</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Încălzire în scaune</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Încălzire în scaune</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Navigație</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Navigație</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Sistem audio premium</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Sistem audio premium</span>
                           </div>
                         </div>
                       </div>
                       
                       <div>
-                        <h3 className="font-semibold text-lg mb-4">Siguranță</h3>
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Siguranță</h3>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Airbag-uri multiple</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Airbag-uri multiple</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">ABS</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">ABS</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">ESP</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">ESP</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">Senzori de parcare</span>
+                            <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm">Senzori de parcare</span>
                           </div>
                         </div>
                       </div>
@@ -435,69 +435,69 @@ const CarDetails = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             {/* Price Card */}
-            <Card className="sticky top-24 mb-6">
-              <CardHeader>
-                <CardTitle className="text-2xl text-primary">
+            <Card className="sticky top-24 mb-4 sm:mb-6">
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-xl sm:text-2xl text-primary">
                   €{car.price.toLocaleString()}
                 </CardTitle>
                 {car.monthly_rate && (
-                  <CardDescription>
+                  <CardDescription className="text-sm">
                     €{car.monthly_rate}/lună cu finanțare
                   </CardDescription>
                 )}
               </CardHeader>
-              <CardContent className="space-y-4">
-                <Button className="w-full" size="lg" onClick={() => handleContact('phone')}>
-                  <Phone className="h-5 w-5 mr-2" />
+              <CardContent className="space-y-3 sm:space-y-4">
+                <Button className="w-full text-sm sm:text-base" size="lg" onClick={() => handleContact('phone')}>
+                  <Phone className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   Sună acum
                 </Button>
-                <Button variant="outline" className="w-full" size="lg" onClick={() => navigate('/contact')}>
-                  <Mail className="h-5 w-5 mr-2" />
+                <Button variant="outline" className="w-full text-sm sm:text-base" size="lg" onClick={() => navigate('/contact')}>
+                  <Mail className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   Solicită ofertă
                 </Button>
               </CardContent>
             </Card>
 
             {/* Contact Info */}
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-5 w-5" />
+            <Card className="mb-4 sm:mb-6">
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
                   Informații contact
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Phone className="h-4 w-4 text-primary" />
-                  <span className="text-sm">+40 21 123 4567</span>
+              <CardContent className="space-y-3 sm:space-y-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
+                  <span className="text-xs sm:text-sm">+40 21 123 4567</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="h-4 w-4 text-primary" />
-                  <span className="text-sm">contact@sunautocorrect.ro</span>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <Mail className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
+                  <span className="text-xs sm:text-sm">contact@sunautocorrect.ro</span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <MapPin className="h-4 w-4 text-primary" />
-                  <span className="text-sm">București, Sector 1</span>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
+                  <span className="text-xs sm:text-sm">București, Sector 1</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* Quick Actions */}
             <Card>
-              <CardHeader>
-                <CardTitle>Acțiuni rapide</CardTitle>
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-base sm:text-lg">Acțiuni rapide</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full justify-start" onClick={() => handleContact('whatsapp')}>
-                  <Phone className="h-4 w-4 mr-2" />
+              <CardContent className="space-y-2 sm:space-y-3">
+                <Button variant="outline" className="w-full justify-start text-xs sm:text-sm" onClick={() => handleContact('whatsapp')}>
+                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   WhatsApp
                 </Button>
-                <Button variant="outline" className="w-full justify-start" onClick={() => handleContact('phone')}>
-                  <Phone className="h-4 w-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start text-xs sm:text-sm" onClick={() => handleContact('phone')}>
+                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   Programează test drive
                 </Button>
-                <Button variant="outline" className="w-full justify-start" onClick={() => handleContact('email')}>
-                  <Mail className="h-4 w-4 mr-2" />
+                <Button variant="outline" className="w-full justify-start text-xs sm:text-sm" onClick={() => handleContact('email')}>
+                  <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   Solicită mai multe poze
                 </Button>
               </CardContent>
@@ -506,13 +506,13 @@ const CarDetails = () => {
         </div>
 
         {/* Similar Cars */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold font-heading mb-6">Mașini similare</h2>
-          <div className="grid md:grid-cols-3 gap-6">
+        <div className="mt-12 sm:mt-16">
+          <h2 className="text-xl sm:text-2xl font-bold font-heading mb-4 sm:mb-6">Mașini similare</h2>
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
             {/* TODO: Add similar cars component */}
-            <div className="text-center p-8 bg-muted rounded-lg">
-              <Car className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground">Mașini similare vor fi afișate aici</p>
+            <div className="text-center p-6 sm:p-8 bg-muted rounded-lg">
+              <Car className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 text-muted-foreground" />
+              <p className="text-xs sm:text-sm text-muted-foreground">Mașini similare vor fi afișate aici</p>
             </div>
           </div>
         </div>

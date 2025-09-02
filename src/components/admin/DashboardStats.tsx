@@ -49,15 +49,15 @@ const DashboardStats = () => {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {[...Array(4)].map((_, i) => (
           <Card key={i} className="animate-pulse">
             <CardHeader className="pb-2">
-              <div className="h-4 bg-muted rounded w-3/4"></div>
-              <div className="h-6 bg-muted rounded w-1/2"></div>
+              <div className="h-3 sm:h-4 bg-muted rounded w-3/4"></div>
+              <div className="h-4 sm:h-6 bg-muted rounded w-1/2"></div>
             </CardHeader>
             <CardContent>
-              <div className="h-8 bg-muted rounded w-1/3"></div>
+              <div className="h-6 sm:h-8 bg-muted rounded w-1/3"></div>
             </CardContent>
           </Card>
         ))}
@@ -66,25 +66,25 @@ const DashboardStats = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div>
-        <h2 className="text-3xl font-bold">Dashboard</h2>
-        <p className="text-muted-foreground">
+        <h2 className="text-2xl sm:text-3xl font-bold">Dashboard</h2>
+        <p className="text-sm sm:text-base text-muted-foreground">
           Prezentare generală a activității SUN AUTOCORECT
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Total Mașini */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Mașini</CardTitle>
-            <Car className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Mașini</CardTitle>
+            <Car className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalCars}</div>
+            <div className="text-xl sm:text-2xl font-bold">{stats.totalCars}</div>
             <p className="text-xs text-muted-foreground">
-              <Badge variant="secondary" className="mr-2">
+              <Badge variant="secondary" className="mr-1 sm:mr-2 text-xs">
                 {stats.featuredCars} Featured
               </Badge>
               în stoc
@@ -95,13 +95,13 @@ const DashboardStats = () => {
         {/* Total Lead-uri */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Lead-uri</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Lead-uri</CardTitle>
+            <Users className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalLeads}</div>
+            <div className="text-xl sm:text-2xl font-bold">{stats.totalLeads}</div>
             <p className="text-xs text-muted-foreground">
-              <Badge variant="destructive" className="mr-2">
+              <Badge variant="destructive" className="mr-1 sm:mr-2 text-xs">
                 {stats.newLeads} Noi
               </Badge>
               în așteptare
@@ -112,13 +112,13 @@ const DashboardStats = () => {
         {/* Newsletter */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Newsletter</CardTitle>
-            <Mail className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">Newsletter</CardTitle>
+            <Mail className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalSubscriptions}</div>
+            <div className="text-xl sm:text-2xl font-bold">{stats.totalSubscriptions}</div>
             <p className="text-xs text-muted-foreground">
-              <Badge variant="outline" className="mr-2">
+              <Badge variant="outline" className="mr-1 sm:mr-2 text-xs">
                 {stats.activeSubscriptions} Active
               </Badge>
               abonamente
@@ -129,11 +129,11 @@ const DashboardStats = () => {
         {/* Performanță */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Performanță</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-xs sm:text-sm font-medium">Performanță</CardTitle>
+            <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-xl sm:text-2xl font-bold">
               {stats.totalCars > 0 ? Math.round((stats.featuredCars / stats.totalCars) * 100) : 0}%
             </div>
             <p className="text-xs text-muted-foreground">
@@ -145,35 +145,35 @@ const DashboardStats = () => {
 
       {/* Quick Actions */}
       <Card>
-        <CardHeader>
-          <CardTitle>Acțiuni Rapide</CardTitle>
-          <CardDescription>
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="text-base sm:text-lg">Acțiuni Rapide</CardTitle>
+          <CardDescription className="text-xs sm:text-sm">
             Accesează rapid funcțiile principale
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer">
-              <Car className="h-5 w-5 text-primary" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer">
+              <Car className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
               <div>
-                <p className="font-medium">Adaugă Mașină</p>
-                <p className="text-sm text-muted-foreground">Publică un anunț nou</p>
+                <p className="font-medium text-sm sm:text-base">Adaugă Mașină</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Publică un anunț nou</p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer">
-              <Users className="h-5 w-5 text-primary" />
+            <div className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer">
+              <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
               <div>
-                <p className="font-medium">Vezi Lead-uri</p>
-                <p className="text-sm text-muted-foreground">Gestionează contactele</p>
+                <p className="font-medium text-sm sm:text-base">Vezi Lead-uri</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Gestionează contactele</p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer">
-              <Mail className="h-5 w-5 text-primary" />
+            <div className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer sm:col-span-2 lg:col-span-1">
+              <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
               <div>
-                <p className="font-medium">Newsletter</p>
-                <p className="text-sm text-muted-foreground">Gestionare abonamente</p>
+                <p className="font-medium text-sm sm:text-base">Newsletter</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Gestionare abonamente</p>
               </div>
             </div>
           </div>

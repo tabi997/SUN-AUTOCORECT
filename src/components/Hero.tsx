@@ -36,24 +36,24 @@ const Hero = () => {
     <>
       {/* Search Form - Imediat după navbar */}
       <div className="w-full bg-background/20 backdrop-blur-sm border-b border-white/20 shadow-lg pt-20">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            <div className="relative flex-1 w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/70 h-5 w-5" />
+        <div className="container mx-auto px-4 py-4 sm:py-6">
+          <div className="flex flex-col gap-4 items-center">
+            <div className="relative w-full max-w-2xl">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/70 h-4 w-4 sm:h-5 sm:w-5" />
               <Input
                 placeholder="Caută după marcă, model sau descriere..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
-                className="pl-10 pr-4 py-3 text-lg h-12 bg-white/10 border-white/30 text-white placeholder:text-white/70 focus:bg-white/20 focus:border-white/50 w-full"
+                className="pl-10 pr-4 py-3 text-base sm:text-lg h-11 sm:h-12 bg-white/10 border-white/30 text-white placeholder:text-white/70 focus:bg-white/20 focus:border-white/50 w-full"
               />
             </div>
-            <div className="flex gap-3 w-full lg:w-auto">
+            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-2xl">
               <Button 
                 variant="solar" 
                 size="lg" 
                 onClick={handleSearch}
-                className="hover:shadow-sunrise flex-1 lg:flex-none"
+                className="hover:shadow-sunrise w-full sm:flex-1"
               >
                 <Search className="h-4 w-4 mr-2" />
                 Caută mașini
@@ -62,7 +62,7 @@ const Hero = () => {
                 variant="outline" 
                 size="lg" 
                 onClick={handleViewAllCars}
-                className="flex-1 lg:flex-none"
+                className="w-full sm:flex-1"
               >
                 Vezi toate mașinile
               </Button>
@@ -87,26 +87,26 @@ const Hero = () => {
           <div className="max-w-4xl">
 
           {/* Hero Text */}
-          <div className="mb-12 text-center lg:text-left -mt-24">
-            <p className="text-primary font-medium mb-4 tracking-wide uppercase">
+          <div className="mb-8 sm:mb-12 text-center lg:text-left -mt-16 sm:-mt-24">
+            <p className="text-primary font-medium mb-3 sm:mb-4 tracking-wide uppercase text-sm sm:text-base">
               Transparență și Încredere
             </p>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold font-heading mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-heading mb-4 sm:mb-6 leading-tight">
               Mașini rulate{" "}
               <span className="bg-gradient-sunrise bg-clip-text text-transparent">
                 luminate
               </span>{" "}
               de încredere
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
+            <p className="text-lg sm:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0">
               Alege transparența sub soarele SUN AUTOCORECT. Fiecare vehicul este verificat cu atenție,
               oferind claritatea unei zile senine în fiecare tranzacție.
             </p>
           </div>
 
           {/* Quick Actions */}
-          <div className="flex flex-wrap gap-4 mt-8">
-            <Button variant="outline" size="lg" onClick={handleSellCar}>
+          <div className="flex flex-wrap gap-4 mt-6 sm:mt-8 justify-center lg:justify-start">
+            <Button variant="outline" size="lg" onClick={handleSellCar} className="w-full sm:w-auto">
               Vinde mașina ta
             </Button>
           </div>
@@ -116,21 +116,21 @@ const Hero = () => {
       </div>
 
       {/* Stats */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-        <div className="flex items-center space-x-8 text-center">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="flex items-center space-x-4 sm:space-x-8 text-center">
           <div>
-            <div className="text-2xl font-bold text-primary">500+</div>
-            <div className="text-sm text-muted-foreground">Mașini vândute</div>
+            <div className="text-xl sm:text-2xl font-bold text-primary">500+</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Mașini vândute</div>
           </div>
-          <div className="w-px h-12 bg-border"></div>
+          <div className="w-px h-8 sm:h-12 bg-border"></div>
           <div>
-            <div className="text-2xl font-bold text-primary">2008</div>
-            <div className="text-sm text-muted-foreground">Anul înființării</div>
+            <div className="text-xl sm:text-2xl font-bold text-primary">2008</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Anul înființării</div>
           </div>
-          <div className="w-px h-12 bg-border"></div>
+          <div className="w-px h-8 sm:h-12 bg-border"></div>
           <div>
-            <div className="text-2xl font-bold text-primary">100%</div>
-            <div className="text-sm text-muted-foreground">Verificate</div>
+            <div className="text-xl sm:text-2xl font-bold text-primary">100%</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Verificate</div>
           </div>
           </div>
         </div>

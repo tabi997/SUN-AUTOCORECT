@@ -156,69 +156,69 @@ const StockCars = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary/5 to-primary/10 py-16">
+      <section className="bg-gradient-to-br from-primary/5 to-primary/10 py-8 sm:py-12 lg:py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold font-heading mb-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading mb-4 sm:mb-6">
               Mașini în Stoc
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto">
               Descoperă colecția noastră completă de vehicule disponibile. 
               Fiecare mașină este verificată și certificată pentru calitate.
             </p>
           </div>
 
           {/* Search Bar */}
-          <div className="max-w-2xl mx-auto mb-8">
+          <div className="max-w-2xl mx-auto mb-6 sm:mb-8">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 sm:h-5 sm:w-5" />
               <Input
                 placeholder="Caută după marcă, model sau descriere..."
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                className="pl-10 pr-4 py-3 text-lg"
+                className="pl-10 pr-4 py-2.5 sm:py-3 text-base sm:text-lg"
               />
             </div>
           </div>
 
           {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{cars.length}</div>
-              <div className="text-sm text-muted-foreground">Mașini în stoc</div>
+              <div className="text-xl sm:text-2xl font-bold text-primary">{cars.length}</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Mașini în stoc</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{brands.length}</div>
-              <div className="text-sm text-muted-foreground">Mărci disponibile</div>
+              <div className="text-xl sm:text-2xl font-bold text-primary">{brands.length}</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Mărci disponibile</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary">
+              <div className="text-xl sm:text-2xl font-bold text-primary">
                 {cars.filter(c => c.featured).length}
               </div>
-              <div className="text-sm text-muted-foreground">Mașini recomandate</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Mașini recomandate</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-primary">
+              <div className="text-xl sm:text-2xl font-bold text-primary">
                 {cars.length > 0 ? Math.min(...cars.map(c => c.price)) : 0}
               </div>
-              <div className="text-sm text-muted-foreground">Preț de la (€)</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Preț de la (€)</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Filters and Controls */}
-      <section className="py-8 border-b border-border">
+      <section className="py-4 sm:py-6 lg:py-8 border-b border-border">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-xs sm:text-sm"
               >
-                <SlidersHorizontal className="h-4 w-4" />
+                <SlidersHorizontal className="h-3 w-3 sm:h-4 sm:w-4" />
                 Filtre
               </Button>
               
@@ -226,7 +226,7 @@ const StockCars = () => {
                 variant="outline"
                 size="sm"
                 onClick={clearFilters}
-                className="text-muted-foreground"
+                className="text-muted-foreground text-xs sm:text-sm"
               >
                 Resetează
               </Button>
@@ -237,27 +237,29 @@ const StockCars = () => {
                 variant={viewMode === 'grid' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setViewMode('grid')}
+                className="h-8 w-8 sm:h-9 sm:w-9 p-0"
               >
-                <Grid3X3 className="h-4 w-4" />
+                <Grid3X3 className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
               <Button
                 variant={viewMode === 'list' ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setViewMode('list')}
+                className="h-8 w-8 sm:h-9 sm:w-9 p-0"
               >
-                <List className="h-4 w-4" />
+                <List className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </div>
           </div>
 
           {/* Advanced Filters */}
           {showFilters && (
-            <div className="mt-6 p-6 bg-muted/30 rounded-lg">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-4 sm:mt-6 p-4 sm:p-6 bg-muted/30 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Marcă</label>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Marcă</label>
                   <Select value={filters.brand} onValueChange={(value) => setFilters({ ...filters, brand: value })}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-9 sm:h-10">
                       <SelectValue placeholder="Toate mărcile" />
                     </SelectTrigger>
                     <SelectContent>
@@ -270,9 +272,9 @@ const StockCars = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Combustibil</label>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Combustibil</label>
                   <Select value={filters.fuel} onValueChange={(value) => setFilters({ ...filters, fuel: value })}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-9 sm:h-10">
                       <SelectValue placeholder="Toate tipurile" />
                     </SelectTrigger>
                     <SelectContent>
@@ -285,9 +287,9 @@ const StockCars = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Transmisie</label>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Transmisie</label>
                   <Select value={filters.transmission} onValueChange={(value) => setFilters({ ...filters, transmission: value })}>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-9 sm:h-10">
                       <SelectValue placeholder="Toate tipurile" />
                     </SelectTrigger>
                     <SelectContent>
@@ -300,21 +302,21 @@ const StockCars = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Preț (€)</label>
+                  <label className="text-xs sm:text-sm font-medium mb-2 block">Preț (€)</label>
                   <div className="flex gap-2">
                     <Input
                       placeholder="Min"
                       type="number"
                       value={filters.minPrice}
                       onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                      className="text-sm"
+                      className="text-xs sm:text-sm h-9 sm:h-10"
                     />
                     <Input
                       placeholder="Max"
                       type="number"
                       value={filters.maxPrice}
                       onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                      className="text-sm"
+                      className="text-xs sm:text-sm h-9 sm:h-10"
                     />
                   </div>
                 </div>
@@ -325,29 +327,29 @@ const StockCars = () => {
       </section>
 
       {/* Cars Grid/List */}
-      <section className="py-16">
+      <section className="py-8 sm:py-12 lg:py-16">
         <div className="container mx-auto px-4">
           {filteredCars.length === 0 ? (
-            <div className="text-center py-16">
-              <Car className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-xl font-semibold mb-2">Nu s-au găsit mașini</h3>
-              <p className="text-muted-foreground mb-4">
+            <div className="text-center py-12 sm:py-16">
+              <Car className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-lg sm:text-xl font-semibold mb-2">Nu s-au găsit mașini</h3>
+              <p className="text-sm sm:text-base text-muted-foreground mb-4">
                 Încearcă să modifici filtrele sau să cauți altceva
               </p>
-              <Button onClick={clearFilters} variant="outline">
+              <Button onClick={clearFilters} variant="outline" className="text-sm">
                 Resetează filtrele
               </Button>
             </div>
           ) : (
             <>
-              <div className="mb-8">
-                <p className="text-muted-foreground">
+              <div className="mb-6 sm:mb-8">
+                <p className="text-sm sm:text-base text-muted-foreground">
                   Afișez {filteredCars.length} din {cars.length} mașini
                 </p>
               </div>
 
               {viewMode === 'grid' ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {filteredCars.map((car) => (
                     <Card 
                       key={car.id} 
@@ -375,63 +377,63 @@ const StockCars = () => {
                         </div>
                       </div>
                       
-                      <CardContent className="p-6">
-                        <div className="mb-4">
-                          <h3 className="text-xl font-bold mb-2">{car.brand} {car.model}</h3>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                      <CardContent className="p-4 sm:p-6">
+                        <div className="mb-3 sm:mb-4">
+                          <h3 className="text-lg sm:text-xl font-bold mb-2">{car.brand} {car.model}</h3>
+                          <div className="flex items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3">
                             <span className="flex items-center gap-1">
-                              <Calendar className="h-4 w-4" />
+                              <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                               {car.year}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Gauge className="h-4 w-4" />
+                              <Gauge className="h-3 w-3 sm:h-4 sm:w-4" />
                               {car.kilometers.toLocaleString()} km
                             </span>
                             <span className="flex items-center gap-1">
-                              <Fuel className="h-4 w-4" />
+                              <Fuel className="h-3 w-3 sm:h-4 sm:w-4" />
                               {car.fuel}
                             </span>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
                             <span>{car.power} CP</span>
                             <span>•</span>
                             <span>{car.transmission}</span>
                           </div>
                         </div>
 
-                        <div className="mb-4">
-                          <div className="text-2xl font-bold text-primary mb-1">
+                        <div className="mb-3 sm:mb-4">
+                          <div className="text-xl sm:text-2xl font-bold text-primary mb-1">
                             €{car.price.toLocaleString()}
                           </div>
                           {car.monthly_rate && (
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-xs sm:text-sm text-muted-foreground">
                               €{car.monthly_rate}/lună
                             </div>
                           )}
                         </div>
 
                         {car.description && (
-                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                          <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4 line-clamp-2">
                             {car.description}
                           </p>
                         )}
 
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-0">
                           <Button 
                             variant="outline" 
                             size="sm" 
-                            className="flex items-center gap-2"
+                            className="flex items-center gap-2 text-xs sm:text-sm"
                             onClick={(e) => handleViewDetails(e, car.id)}
                           >
-                            <Eye className="h-4 w-4" />
+                            <Eye className="h-3 w-3 sm:h-4 sm:w-4" />
                             Vezi detalii
                           </Button>
                           <Button 
                             size="sm" 
-                            className="flex items-center gap-2"
+                            className="flex items-center gap-2 text-xs sm:text-sm"
                             onClick={(e) => handleContactClick(e, car.id)}
                           >
-                            <Car className="h-4 w-4" />
+                            <Car className="h-3 w-3 sm:h-4 sm:w-4" />
                             Contactează
                           </Button>
                         </div>
@@ -440,42 +442,42 @@ const StockCars = () => {
                   ))}
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {filteredCars.map((car) => (
                     <Card 
                       key={car.id} 
                       className="group hover:shadow-md transition-all duration-300 cursor-pointer"
                       onClick={() => handleCarClick(car.id)}
                     >
-                      <div className="flex">
-                        <div className="w-48 h-32 relative">
+                      <div className="flex flex-col sm:flex-row">
+                        <div className="w-full sm:w-48 h-48 sm:h-32 relative">
                           <img
                             src={getPrimaryImage(car)}
                             alt={`${car.brand} ${car.model}`}
-                            className="w-full h-full object-cover rounded-l-lg"
+                            className="w-full h-full object-cover rounded-t-lg sm:rounded-l-lg sm:rounded-t-none"
                           />
                           {car.featured && (
-                            <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground">
+                            <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs">
                               <Star className="h-3 w-3 mr-1" />
                             </Badge>
                           )}
                         </div>
                         
-                        <div className="flex-1 p-6">
-                          <div className="flex items-start justify-between mb-4">
-                            <div>
-                              <h3 className="text-xl font-bold mb-2">{car.brand} {car.model}</h3>
-                              <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                        <div className="flex-1 p-4 sm:p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3 sm:mb-4">
+                            <div className="flex-1">
+                              <h3 className="text-lg sm:text-xl font-bold mb-2">{car.brand} {car.model}</h3>
+                              <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground">
                                 <span className="flex items-center gap-1">
-                                  <Calendar className="h-4 w-4" />
+                                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                                   {car.year}
                                 </span>
                                 <span className="flex items-center gap-1">
-                                  <Gauge className="h-4 w-4" />
+                                  <Gauge className="h-3 w-3 sm:h-4 sm:w-4" />
                                   {car.kilometers.toLocaleString()} km
                                 </span>
                                 <span className="flex items-center gap-1">
-                                  <Fuel className="h-4 w-4" />
+                                  <Fuel className="h-3 w-3 sm:h-4 sm:w-4" />
                                   {car.fuel}
                                 </span>
                                 <span>{car.power} CP</span>
@@ -483,12 +485,12 @@ const StockCars = () => {
                               </div>
                             </div>
                             
-                            <div className="text-right">
-                              <div className="text-2xl font-bold text-primary mb-1">
+                            <div className="text-left sm:text-right mt-2 sm:mt-0">
+                              <div className="text-xl sm:text-2xl font-bold text-primary mb-1">
                                 €{car.price.toLocaleString()}
                               </div>
                               {car.monthly_rate && (
-                                <div className="text-sm text-muted-foreground">
+                                <div className="text-xs sm:text-sm text-muted-foreground">
                                   €{car.monthly_rate}/lună
                                 </div>
                               )}
@@ -496,17 +498,17 @@ const StockCars = () => {
                           </div>
 
                           {car.description && (
-                            <p className="text-sm text-muted-foreground mb-4">
+                            <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
                               {car.description}
                             </p>
                           )}
 
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                              <Badge variant="secondary">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+                            <div className="flex items-center gap-3 sm:gap-4">
+                              <Badge variant="secondary" className="text-xs">
                                 {car.images.length} fotografii
                               </Badge>
-                              <span className="text-sm text-muted-foreground">
+                              <span className="text-xs sm:text-sm text-muted-foreground">
                                 ID: {car.id}
                               </span>
                             </div>
@@ -516,15 +518,17 @@ const StockCars = () => {
                                 variant="outline" 
                                 size="sm"
                                 onClick={(e) => handleViewDetails(e, car.id)}
+                                className="text-xs sm:text-sm"
                               >
-                                <Eye className="h-4 w-4 mr-2" />
+                                <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                                 Detalii
                               </Button>
                               <Button 
                                 size="sm"
                                 onClick={(e) => handleContactClick(e, car.id)}
+                                className="text-xs sm:text-sm"
                               >
-                                <Car className="h-4 w-4 mr-2" />
+                                <Car className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
                                 Contactează
                               </Button>
                             </div>
