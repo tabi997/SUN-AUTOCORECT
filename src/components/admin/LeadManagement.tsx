@@ -122,7 +122,7 @@ const LeadManagement = () => {
       case 'newsletter':
         return 'Newsletter'
       case 'car_inquiry':
-        return 'Întrebare Mașină'
+        return 'Vânzare Mașină'
       default:
         return source
     }
