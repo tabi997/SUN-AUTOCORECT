@@ -187,11 +187,19 @@ const CarManagement = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Import Autovit */}
       <AutovitImport />
 
-      {/* Cars Table */}
+      {/* Add Car Button */}
+      <div className="flex justify-end">
+        <Button onClick={openNewCarDialog} variant="solar" className="flex items-center space-x-2">
+          <Plus className="h-4 w-4" />
+          <span>Adaugă Mașină</span>
+        </Button>
+      </div>
+
+      {/* Cars List - Mobile Cards / Desktop Table */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
@@ -207,18 +215,88 @@ const CarManagement = () => {
               <p className="text-sm">Adaugă prima mașină pentru a începe</p>
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Imagine</TableHead>
-                  <TableHead>Detalii</TableHead>
-                  <TableHead>Preț</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Fotografii</TableHead>
-                  <TableHead>Acțiuni</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Mobile Cards View */}
+              <div className="block md:hidden space-y-4">
+                {cars.map((car) => (
+                  <Card key={car.id} className="p-4">
+                    <div className="flex space-x-4">
+                      <div className="w-20 h-16 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                        {car.images.length > 0 ? (
+                          <img 
+                            src={car.images.find(img => img.is_primary)?.image_url || car.image_url} 
+                            alt={`${car.brand} ${car.model}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Car className="h-6 w-6 text-muted-foreground" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium truncate">{car.brand} {car.model}</div>
+                        <div className="text-sm text-muted-foreground space-x-2">
+                          <span>{car.year}</span>
+                          <span>•</span>
+                          <span>{car.kilometers.toLocaleString()} km</span>
+                        </div>
+                        <div className="font-bold text-primary text-sm">
+                          €{car.price.toLocaleString()}
+                        </div>
+                        <div className="flex items-center space-x-2 mt-2">
+                          <Badge variant={car.status === 'active' ? 'default' : 'secondary'} className="text-xs">
+                            {car.status === 'active' ? 'Activ' : 
+                             car.status === 'sold' ? 'Vândut' : 
+                             car.status === 'reserved' ? 'Rezervat' : 'Inactiv'}
+                          </Badge>
+                          {car.featured && (
+                            <Badge variant="secondary" className="text-xs">
+                              <Star className="h-3 w-3 mr-1" />
+                              Featured
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex space-x-2 mt-3">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(car)}
+                            className="flex-1"
+                          >
+                            <Edit className="h-4 w-4 mr-1" />
+                            Edit
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(car.id)}
+                            className="flex-1"
+                          >
+                            <Trash2 className="h-4 w-4 mr-1" />
+                            Șterge
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Imagine</TableHead>
+                      <TableHead>Detalii</TableHead>
+                      <TableHead>Preț</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Fotografii</TableHead>
+                      <TableHead>Acțiuni</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                 {cars.map((car) => (
                   <TableRow key={car.id}>
                     <TableCell>
@@ -307,21 +385,17 @@ const CarManagement = () => {
                     </TableCell>
                   </TableRow>
                 ))}
-              </TableBody>
-            </Table>
+                  </TableBody>
+                </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
 
       {/* Add/Edit Car Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogTrigger asChild>
-          <Button onClick={openNewCarDialog} variant="solar" className="flex items-center space-x-2">
-            <Plus className="h-4 w-4" />
-            <span>Adaugă Mașină</span>
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-screen-md max-h-[90vh] overflow-y-auto mx-4">
           <DialogHeader>
             <DialogTitle>
               {editingCar ? 'Editează Mașina' : 'Adaugă Mașină Nouă'}
@@ -345,7 +419,7 @@ const CarManagement = () => {
 
             <TabsContent value="details" className="space-y-4">
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="brand">Marcă *</Label>
                     <Input
@@ -367,7 +441,7 @@ const CarManagement = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="year">An *</Label>
                     <Input
@@ -406,7 +480,7 @@ const CarManagement = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="fuel">Combustibil *</Label>
                     <Select
@@ -443,7 +517,7 @@ const CarManagement = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="price">Preț (€) *</Label>
                     <Input
@@ -468,7 +542,7 @@ const CarManagement = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="status">Status</Label>
                     <Select
@@ -521,15 +595,16 @@ const CarManagement = () => {
                   <Label htmlFor="featured">Mașină Featured</Label>
                 </div>
 
-                <div className="flex justify-end space-x-2 pt-4">
+                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-4">
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => setIsDialogOpen(false)}
+                    className="w-full sm:w-auto"
                   >
                     Anulează
                   </Button>
-                  <Button type="submit" variant="solar">
+                  <Button type="submit" variant="solar" className="w-full sm:w-auto">
                     {editingCar ? 'Actualizează' : 'Adaugă'} Mașina
                   </Button>
                 </div>

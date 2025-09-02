@@ -141,9 +141,9 @@ const LeadManagement = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Total Lead-uri</CardTitle>
@@ -187,19 +187,19 @@ const LeadManagement = () => {
         </Card>
       </div>
 
-      {/* Leads Table */}
+      {/* Leads List - Mobile Cards / Desktop Table */}
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <CardTitle className="flex items-center space-x-2">
               <Users className="h-5 w-5" />
               <span>Lista Lead-uri ({filteredLeads.length})</span>
             </CardTitle>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 w-full sm:w-auto">
               <Filter className="h-4 w-4 text-muted-foreground" />
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-full sm:w-40">
                   <SelectValue placeholder="Filtrează după status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -220,18 +220,86 @@ const LeadManagement = () => {
               <p>Nu există lead-uri {statusFilter !== 'all' ? `cu statusul "${getStatusLabel(statusFilter as Lead['status'])}"` : ''}</p>
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Sursa</TableHead>
-                  <TableHead>Mesaj</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Acțiuni</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Mobile Cards View */}
+              <div className="block md:hidden space-y-4">
+                {filteredLeads.map((lead) => (
+                  <Card key={lead.id} className="p-4">
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="font-medium">{lead.name}</div>
+                          <div className="text-sm text-muted-foreground space-y-1">
+                            <div className="flex items-center space-x-1">
+                              <Mail className="h-3 w-3" />
+                              <span className="truncate">{lead.email}</span>
+                            </div>
+                            {lead.phone && (
+                              <div className="flex items-center space-x-1">
+                                <Phone className="h-3 w-3" />
+                                <span>{lead.phone}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <Badge variant={getStatusBadgeVariant(lead.status)} className="text-xs">
+                          {getStatusLabel(lead.status)}
+                        </Badge>
+                      </div>
+                      
+                      <div>
+                        <Badge variant="outline" className="text-xs">
+                          {getSourceLabel(lead.source)}
+                        </Badge>
+                      </div>
+                      
+                      <div>
+                        <p className="text-sm line-clamp-2">{lead.message}</p>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="text-xs text-muted-foreground">
+                          {new Date(lead.created_at).toLocaleDateString('ro-RO')}
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedLead(lead)
+                              setIsDetailDialogOpen(true)
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(lead.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Contact</TableHead>
+                      <TableHead>Sursa</TableHead>
+                      <TableHead>Mesaj</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Data</TableHead>
+                      <TableHead>Acțiuni</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                 {filteredLeads.map((lead) => (
                   <TableRow key={lead.id}>
                     <TableCell>
@@ -305,15 +373,17 @@ const LeadManagement = () => {
                     </TableCell>
                   </TableRow>
                 ))}
-              </TableBody>
-            </Table>
+                  </TableBody>
+                </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
 
       {/* Lead Detail Dialog */}
       <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-screen-md mx-4">
           <DialogHeader>
             <DialogTitle>Detalii Lead</DialogTitle>
             <DialogDescription>
@@ -323,7 +393,7 @@ const LeadManagement = () => {
           
           {selectedLead && (
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label className="text-sm font-medium">Nume</Label>
                   <p className="text-sm">{selectedLead.name}</p>
@@ -341,7 +411,7 @@ const LeadManagement = () => {
                 </div>
               )}
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label className="text-sm font-medium">Sursa</Label>
                   <Badge variant="outline">

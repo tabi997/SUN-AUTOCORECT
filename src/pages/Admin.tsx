@@ -80,28 +80,24 @@ const Admin = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-4 sm:py-6 lg:py-8">
+      <main className="w-full max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 overflow-x-hidden">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
           <TabsList className="grid w-full grid-cols-4 h-auto">
-            <TabsTrigger value="dashboard" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm py-2 sm:py-3">
-              <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Dashboard</span>
-              <span className="sm:hidden">Stats</span>
+            <TabsTrigger value="dashboard" className="flex flex-col items-center space-y-1 text-xs py-3">
+              <TrendingUp className="h-4 w-4" />
+              <span>Stats</span>
             </TabsTrigger>
-            <TabsTrigger value="cars" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm py-2 sm:py-3">
-              <Car className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Mașini</span>
-              <span className="sm:hidden">Cars</span>
+            <TabsTrigger value="cars" className="flex flex-col items-center space-y-1 text-xs py-3">
+              <Car className="h-4 w-4" />
+              <span>Mașini</span>
             </TabsTrigger>
-            <TabsTrigger value="leads" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm py-2 sm:py-3">
-              <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Lead-uri</span>
-              <span className="sm:hidden">Leads</span>
+            <TabsTrigger value="leads" className="flex flex-col items-center space-y-1 text-xs py-3">
+              <Users className="h-4 w-4" />
+              <span>Lead-uri</span>
             </TabsTrigger>
-            <TabsTrigger value="newsletter" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm py-2 sm:py-3">
-              <Mail className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Newsletter</span>
-              <span className="sm:hidden">Mail</span>
+            <TabsTrigger value="newsletter" className="flex flex-col items-center space-y-1 text-xs py-3">
+              <Mail className="h-4 w-4" />
+              <span>Mail</span>
             </TabsTrigger>
           </TabsList>
 
@@ -110,25 +106,21 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="cars" className="space-y-4 sm:space-y-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-4">
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold">Gestionare Mașini</h2>
-                <p className="text-sm sm:text-base text-muted-foreground">
+                <h2 className="text-xl font-bold">Gestionare Mașini</h2>
+                <p className="text-sm text-muted-foreground">
                   Adaugă, editează și șterge anunțurile de mașini
                 </p>
               </div>
-              <Button variant="solar" className="flex items-center space-x-2 w-full sm:w-auto text-sm">
-                <Plus className="h-4 w-4" />
-                <span>Adaugă Mașină</span>
-              </Button>
             </div>
             <CarManagement />
           </TabsContent>
 
           <TabsContent value="leads" className="space-y-4 sm:space-y-6">
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold">Gestionare Lead-uri</h2>
-              <p className="text-sm sm:text-base text-muted-foreground">
+              <h2 className="text-xl font-bold">Gestionare Lead-uri</h2>
+              <p className="text-sm text-muted-foreground">
                 Gestionează lead-urile primite din formulare
               </p>
             </div>
@@ -137,8 +129,8 @@ const Admin = () => {
 
           <TabsContent value="newsletter" className="space-y-4 sm:space-y-6">
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold">Gestionare Newsletter</h2>
-              <p className="text-sm sm:text-base text-muted-foreground">
+              <h2 className="text-xl font-bold">Gestionare Newsletter</h2>
+              <p className="text-sm text-muted-foreground">
                 Gestionează abonamentele la newsletter
               </p>
             </div>
