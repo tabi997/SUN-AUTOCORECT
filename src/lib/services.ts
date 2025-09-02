@@ -4,13 +4,19 @@ import { supabase, Car, CarImage, CarWithImages, Lead, NewsletterSubscription } 
 export const carService = {
   // Obține toate mașinile cu imagini
   async getAllCars(): Promise<CarWithImages[]> {
+    console.log('🔍 carService: Starting getAllCars...')
     const { data: cars, error: carsError } = await supabase
       .from('cars')
       .select('*')
       .eq('status', 'active')
       .order('created_at', { ascending: false })
     
-    if (carsError) throw carsError
+    if (carsError) {
+      console.error('❌ carService: Error fetching cars:', carsError)
+      throw carsError
+    }
+    
+    console.log('🔍 carService: Cars fetched from DB:', cars?.length || 0)
     
     // Obține imaginile pentru fiecare mașină
     const carsWithImages = await Promise.all(
@@ -93,7 +99,7 @@ export const carService = {
   },
 
   // Creează o mașină nouă
-  async createCar(car: Omit<Car, 'id' | 'created_at' | 'updated_at'>): Promise<Car> {
+  async createCar(car: Omit<Car, 'id' | 'created_at' | 'updated_at'>): Promise<CarWithImages> {
     const { data, error } = await supabase
       .from('cars')
       .insert([car])
@@ -101,7 +107,12 @@ export const carService = {
       .single()
     
     if (error) throw error
-    return data
+    
+    // Return as CarWithImages with empty images array
+    return {
+      ...data,
+      images: []
+    }
   },
 
   // Actualizează o mașină

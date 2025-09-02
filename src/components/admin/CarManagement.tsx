@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -24,20 +24,30 @@ import {
   Fuel,
   Settings,
   Camera,
-  Images
+  Images,
+  Upload,
+  X
 } from 'lucide-react'
 import { carService } from '@/lib/services'
 import { CarWithImages, CarImage } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 import { useToast } from '@/hooks/use-toast'
 import ImageUpload from './ImageUpload'
 import AutovitImport from './AutovitImport'
+import SafeImage from '@/components/ui/safe-image'
+import ClientFileUpload from './ClientFileUpload'
+import { uploadCarImages } from '@/lib/image-upload'
 
 const CarManagement = () => {
   const [cars, setCars] = useState<CarWithImages[]>([])
   const [loading, setLoading] = useState(true)
   const [editingCar, setEditingCar] = useState<CarWithImages | null>(null)
+  const [uploadingImages, setUploadingImages] = useState(false)
+  
+  console.log('🔍 CarManagement: Component rendering, loading:', loading, 'cars count:', cars.length)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('details')
+  const [tempImages, setTempImages] = useState<File[]>([])
   const [formData, setFormData] = useState({
     brand: '',
     model: '',
@@ -56,15 +66,18 @@ const CarManagement = () => {
   const { toast } = useToast()
 
   useEffect(() => {
+    console.log('🔍 CarManagement: useEffect triggered, calling fetchCars')
     fetchCars()
   }, [])
 
   const fetchCars = async () => {
     try {
+      console.log('🔍 CarManagement: Starting fetchCars...')
       const data = await carService.getAllCars()
-      setCars(data)
+      console.log('🔍 CarManagement: Cars fetched:', data?.length || 0)
+      setCars(data || [])
     } catch (error) {
-      console.error('Eroare la încărcarea mașinilor:', error)
+      console.error('❌ CarManagement: Error fetching cars:', error)
       setCars([])
       toast({
         title: "Eroare",
@@ -72,6 +85,7 @@ const CarManagement = () => {
         variant: "destructive"
       })
     } finally {
+      console.log('🔍 CarManagement: fetchCars completed, setting loading to false')
       setLoading(false)
     }
   }
@@ -86,17 +100,55 @@ const CarManagement = () => {
           title: "Succes",
           description: "Mașina a fost actualizată cu succes"
         })
+        setIsDialogOpen(false)
+        setEditingCar(null)
+        resetForm()
       } else {
-        await carService.createCar(formData)
-        toast({
-          title: "Succes",
-          description: "Mașina a fost adăugată cu succes"
-        })
+        const newCar = await carService.createCar(formData)
+        
+        // If there are temporary images, upload them
+        if (tempImages.length > 0) {
+          try {
+            setUploadingImages(true)
+            const uploadResult = await uploadCarImages({
+              carId: newCar.id,
+              files: tempImages
+            })
+            
+            if (uploadResult.success) {
+              toast({
+                title: "Succes",
+                description: `Mașina a fost adăugată cu succes cu ${tempImages.length} fotografii`
+              })
+            } else {
+              toast({
+                title: "Avertisment",
+                description: `Mașina a fost salvată, dar a apărut o eroare la upload-ul imaginilor: ${uploadResult.error}`,
+                variant: "destructive"
+              })
+            }
+          } catch (uploadError) {
+            console.error('Upload error:', uploadError)
+            toast({
+              title: "Avertisment",
+              description: "Mașina a fost salvată, dar a apărut o eroare la upload-ul imaginilor. Poți adăuga imaginile manual din editare.",
+              variant: "destructive"
+            })
+          } finally {
+            setUploadingImages(false)
+          }
+        } else {
+          toast({
+            title: "Succes",
+            description: "Mașina a fost adăugată cu succes"
+          })
+        }
+        
+        setIsDialogOpen(false)
+        setEditingCar(null)
+        resetForm()
       }
       
-      setIsDialogOpen(false)
-      setEditingCar(null)
-      resetForm()
       fetchCars()
     } catch (error) {
       toast({
@@ -110,19 +162,19 @@ const CarManagement = () => {
   const handleEdit = (car: CarWithImages) => {
     setEditingCar(car)
     setFormData({
-      brand: car.brand,
-      model: car.model,
-      year: car.year,
-      kilometers: car.kilometers,
-      fuel: car.fuel,
-      power: car.power,
-      transmission: car.transmission,
-      price: car.price,
+      brand: car.brand || '',
+      model: car.model || '',
+      year: car.year || new Date().getFullYear(),
+      kilometers: car.kilometers || 0,
+      fuel: car.fuel || '',
+      power: car.power || 0,
+      transmission: car.transmission || '',
+      price: car.price || 0,
       monthly_rate: car.monthly_rate || 0,
-      featured: car.featured,
-      image_url: car.image_url,
+      featured: car.featured || false,
+      image_url: car.image_url || '',
       description: car.description || '',
-      status: car.status
+      status: car.status || 'active'
     })
     setIsDialogOpen(true)
     setActiveTab('details')
@@ -163,6 +215,7 @@ const CarManagement = () => {
       description: '',
       status: 'active'
     })
+    setTempImages([])
   }
 
   const openNewCarDialog = () => {
@@ -174,22 +227,30 @@ const CarManagement = () => {
 
   const handleImagesChange = (newImages: CarImage[]) => {
     if (editingCar) {
-      setEditingCar({ ...editingCar, images: newImages })
+      setEditingCar({ ...editingCar, images: newImages || [] })
     }
   }
 
+  const handleTempFilesChange = (files: File[]) => {
+    setTempImages(files)
+  }
+
   if (loading) {
+    console.log('🔍 CarManagement: Rendering loading state')
     return (
       <div className="flex items-center justify-center py-8">
         <Loader2 className="h-8 w-8 animate-spin" />
+        <span className="ml-2">Se încarcă mașinile...</span>
       </div>
     )
   }
 
+  console.log('🔍 CarManagement: Rendering main component with', cars.length, 'cars')
+  
   return (
     <div className="space-y-4">
       {/* Import Autovit */}
-      <AutovitImport />
+      {/* <AutovitImport /> */}
 
       {/* Add Car Button */}
       <div className="flex justify-end">
@@ -208,7 +269,7 @@ const CarManagement = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {cars.length === 0 ? (
+          {!cars || cars.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               <Car className="h-12 w-12 mx-auto mb-4 opacity-50" />
               <p>Nu există mașini în baza de date</p>
@@ -218,31 +279,26 @@ const CarManagement = () => {
             <>
               {/* Mobile Cards View */}
               <div className="block md:hidden space-y-4">
-                {cars.map((car) => (
+                {cars?.map((car) => car ? (
                   <Card key={car.id} className="p-4">
                     <div className="flex space-x-4">
                       <div className="w-20 h-16 rounded-lg overflow-hidden bg-muted flex-shrink-0">
-                        {car.images.length > 0 ? (
-                          <img 
-                            src={car.images.find(img => img.is_primary)?.image_url || car.image_url} 
-                            alt={`${car.brand} ${car.model}`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Car className="h-6 w-6 text-muted-foreground" />
-                          </div>
-                        )}
+                        <SafeImage
+                          src={car.images?.find(img => img?.is_primary)?.image_url || car.image_url}
+                          alt={`${car.brand} ${car.model}`}
+                          className="w-full h-full"
+                          fallbackIcon={<Car className="h-6 w-6 text-muted-foreground" />}
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium truncate">{car.brand} {car.model}</div>
                         <div className="text-sm text-muted-foreground space-x-2">
-                          <span>{car.year}</span>
+                          <span>{car.year || 'N/A'}</span>
                           <span>•</span>
-                          <span>{car.kilometers.toLocaleString()} km</span>
+                          <span>{(car.kilometers || 0).toLocaleString()} km</span>
                         </div>
                         <div className="font-bold text-primary text-sm">
-                          €{car.price.toLocaleString()}
+                          €{(car.price || 0).toLocaleString()}
                         </div>
                         <div className="flex items-center space-x-2 mt-2">
                           <Badge variant={car.status === 'active' ? 'default' : 'secondary'} className="text-xs">
@@ -280,7 +336,7 @@ const CarManagement = () => {
                       </div>
                     </div>
                   </Card>
-                ))}
+                ) : null) || []}
               </div>
 
               {/* Desktop Table View */}
@@ -297,38 +353,33 @@ const CarManagement = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                {cars.map((car) => (
+                {cars?.map((car) => car ? (
                   <TableRow key={car.id}>
                     <TableCell>
                       <div className="w-16 h-12 rounded-lg overflow-hidden bg-muted">
-                        {car.images.length > 0 ? (
-                          <img 
-                            src={car.images.find(img => img.is_primary)?.image_url || car.image_url} 
-                            alt={`${car.brand} ${car.model}`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Car className="h-6 w-6 text-muted-foreground" />
-                          </div>
-                        )}
+                        <SafeImage
+                          src={car.images?.find(img => img?.is_primary)?.image_url || car.image_url}
+                          alt={`${car.brand} ${car.model}`}
+                          className="w-full h-full"
+                          fallbackIcon={<Car className="h-6 w-6 text-muted-foreground" />}
+                        />
                       </div>
                     </TableCell>
                     <TableCell>
                       <div>
                         <div className="font-medium">{car.brand} {car.model}</div>
                         <div className="text-sm text-muted-foreground space-x-2">
-                          <span>{car.year}</span>
+                          <span>{car.year || 'N/A'}</span>
                           <span>•</span>
-                          <span>{car.kilometers.toLocaleString()} km</span>
+                          <span>{(car.kilometers || 0).toLocaleString()} km</span>
                           <span>•</span>
-                          <span>{car.fuel}</span>
+                          <span>{car.fuel || 'N/A'}</span>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="font-bold text-primary">
-                        €{car.price.toLocaleString()}
+                        €{(car.price || 0).toLocaleString()}
                       </div>
                       {car.monthly_rate && (
                         <div className="text-sm text-muted-foreground">
@@ -350,7 +401,7 @@ const CarManagement = () => {
                           </Badge>
                         )}
                         <div className="text-xs text-muted-foreground">
-                          {new Date(car.created_at).toLocaleDateString('ro-RO')}
+                          {car.created_at ? new Date(car.created_at).toLocaleDateString('ro-RO') : 'N/A'}
                         </div>
                       </div>
                     </TableCell>
@@ -358,9 +409,9 @@ const CarManagement = () => {
                       <div className="flex items-center space-x-2">
                         <Badge variant="outline" className="flex items-center space-x-1">
                           <Images className="h-3 w-3" />
-                          <span>{car.images.length}</span>
+                          <span>{car.images?.length || 0}</span>
                         </Badge>
-                        {car.images.length === 0 && (
+                        {(!car.images || car.images.length === 0) && (
                           <span className="text-xs text-muted-foreground">Fără foto</span>
                         )}
                       </div>
@@ -384,7 +435,7 @@ const CarManagement = () => {
                       </div>
                     </TableCell>
                   </TableRow>
-                ))}
+                ) : null) || []}
                   </TableBody>
                 </Table>
               </div>
@@ -411,9 +462,9 @@ const CarManagement = () => {
                 <Car className="h-4 w-4" />
                 <span>Detalii Mașină</span>
               </TabsTrigger>
-              <TabsTrigger value="images" className="flex items-center space-x-2" disabled={!editingCar}>
+              <TabsTrigger value="images" className="flex items-center space-x-2">
                 <Camera className="h-4 w-4" />
-                <span>Fotografii ({editingCar?.images.length || 0})</span>
+                <span>Fotografii ({editingCar?.images?.length || 0})</span>
               </TabsTrigger>
             </TabsList>
 
@@ -604,20 +655,64 @@ const CarManagement = () => {
                   >
                     Anulează
                   </Button>
-                  <Button type="submit" variant="solar" className="w-full sm:w-auto">
-                    {editingCar ? 'Actualizează' : 'Adaugă'} Mașina
+                  <Button 
+                    type="submit" 
+                    variant="solar" 
+                    className="w-full sm:w-auto"
+                    disabled={uploadingImages}
+                  >
+                    {uploadingImages ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Se încarcă...
+                      </>
+                    ) : (
+                      `${editingCar ? 'Actualizează' : 'Adaugă'} Mașina`
+                    )}
                   </Button>
                 </div>
               </form>
             </TabsContent>
 
             <TabsContent value="images" className="space-y-4">
-              {editingCar && (
-                <ImageUpload
-                  carId={editingCar.id}
-                  existingImages={editingCar.images}
-                  onImagesChange={handleImagesChange}
-                />
+              {editingCar ? (
+                <div className="space-y-4">
+                  <ImageUpload
+                    carId={editingCar.id}
+                    existingImages={editingCar.images || []}
+                    onImagesChange={handleImagesChange}
+                  />
+                  <div className="flex justify-end pt-4 border-t">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => {
+                        setIsDialogOpen(false)
+                        setEditingCar(null)
+                        resetForm()
+                      }}
+                    >
+                      Închide
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <h3 className="text-lg font-medium mb-2">Adaugă Fotografii</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      Poți adăuga până la 20 imagini. Prima imagine va fi cea principală.
+                    </p>
+                  </div>
+                  
+                  <ClientFileUpload
+                    onFilesChange={handleTempFilesChange}
+                    maxFiles={20}
+                    maxFileSize={10}
+                    acceptedTypes={['image/*']}
+                    existingFiles={tempImages}
+                  />
+                </div>
               )}
             </TabsContent>
           </Tabs>

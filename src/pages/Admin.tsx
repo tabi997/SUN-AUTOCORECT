@@ -19,6 +19,7 @@ import CarManagement from '@/components/admin/CarManagement'
 import LeadManagement from '@/components/admin/LeadManagement'
 import NewsletterManagement from '@/components/admin/NewsletterManagement'
 import DashboardStats from '@/components/admin/DashboardStats'
+import AdminErrorBoundary from '@/components/admin/AdminErrorBoundary'
 
 const Admin = () => {
   const { user, signOut } = useAuth()
@@ -49,96 +50,106 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-solar rounded-full flex items-center justify-center">
-                <Car className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" />
+    <AdminErrorBoundary>
+      <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="border-b border-border bg-card">
+          <div className="container mx-auto px-4 py-3 sm:py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2 sm:space-x-3">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-solar rounded-full flex items-center justify-center">
+                  <Car className="h-4 w-4 sm:h-5 sm:w-5 text-primary-foreground" />
+                </div>
+                <div>
+                  <h1 className="text-lg sm:text-xl font-bold">SUN AUTOCORECT</h1>
+                  <p className="text-xs sm:text-sm text-muted-foreground">Admin Dashboard</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold">SUN AUTOCORECT</h1>
-                <p className="text-xs sm:text-sm text-muted-foreground">Admin Dashboard</p>
+              
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                <div className="text-right hidden sm:block">
+                  <p className="text-xs sm:text-sm font-medium">{user.email}</p>
+                  <Badge variant="secondary" className="text-xs">Administrator</Badge>
+                </div>
+                <Button variant="outline" size="sm" onClick={handleSignOut} className="text-xs sm:text-sm">
+                  <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">Deconectare</span>
+                  <span className="sm:hidden">Exit</span>
+                </Button>
               </div>
-            </div>
-            
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <div className="text-right hidden sm:block">
-                <p className="text-xs sm:text-sm font-medium">{user.email}</p>
-                <Badge variant="secondary" className="text-xs">Administrator</Badge>
-              </div>
-              <Button variant="outline" size="sm" onClick={handleSignOut} className="text-xs sm:text-sm">
-                <LogOut className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Deconectare</span>
-                <span className="sm:hidden">Exit</span>
-              </Button>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Content */}
-      <main className="w-full max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 overflow-x-hidden">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
-          <TabsList className="grid w-full grid-cols-4 h-auto">
-            <TabsTrigger value="dashboard" className="flex flex-col items-center space-y-1 text-xs py-3">
-              <TrendingUp className="h-4 w-4" />
-              <span>Stats</span>
-            </TabsTrigger>
-            <TabsTrigger value="cars" className="flex flex-col items-center space-y-1 text-xs py-3">
-              <Car className="h-4 w-4" />
-              <span>Mașini</span>
-            </TabsTrigger>
-            <TabsTrigger value="leads" className="flex flex-col items-center space-y-1 text-xs py-3">
-              <Users className="h-4 w-4" />
-              <span>Lead-uri</span>
-            </TabsTrigger>
-            <TabsTrigger value="newsletter" className="flex flex-col items-center space-y-1 text-xs py-3">
-              <Mail className="h-4 w-4" />
-              <span>Mail</span>
-            </TabsTrigger>
-          </TabsList>
+        {/* Main Content */}
+        <main className="w-full max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 overflow-x-hidden">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
+            <TabsList className="grid w-full grid-cols-4 h-auto">
+              <TabsTrigger value="dashboard" className="flex flex-col items-center space-y-1 text-xs py-3">
+                <TrendingUp className="h-4 w-4" />
+                <span>Stats</span>
+              </TabsTrigger>
+              <TabsTrigger value="cars" className="flex flex-col items-center space-y-1 text-xs py-3">
+                <Car className="h-4 w-4" />
+                <span>Mașini</span>
+              </TabsTrigger>
+              <TabsTrigger value="leads" className="flex flex-col items-center space-y-1 text-xs py-3">
+                <Users className="h-4 w-4" />
+                <span>Lead-uri</span>
+              </TabsTrigger>
+              <TabsTrigger value="newsletter" className="flex flex-col items-center space-y-1 text-xs py-3">
+                <Mail className="h-4 w-4" />
+                <span>Mail</span>
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="dashboard" className="space-y-4 sm:space-y-6">
-            <DashboardStats />
-          </TabsContent>
+            <TabsContent value="dashboard" className="space-y-4 sm:space-y-6">
+              <AdminErrorBoundary>
+                <DashboardStats />
+              </AdminErrorBoundary>
+            </TabsContent>
 
-          <TabsContent value="cars" className="space-y-4 sm:space-y-6">
-            <div className="space-y-4">
+            <TabsContent value="cars" className="space-y-4 sm:space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <h2 className="text-xl font-bold">Gestionare Mașini</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Adaugă, editează și șterge anunțurile de mașini
+                  </p>
+                </div>
+              </div>
+              <AdminErrorBoundary>
+                <CarManagement />
+              </AdminErrorBoundary>
+            </TabsContent>
+
+            <TabsContent value="leads" className="space-y-4 sm:space-y-6">
               <div>
-                <h2 className="text-xl font-bold">Gestionare Mașini</h2>
+                <h2 className="text-xl font-bold">Gestionare Lead-uri</h2>
                 <p className="text-sm text-muted-foreground">
-                  Adaugă, editează și șterge anunțurile de mașini
+                  Gestionează lead-urile primite din formulare
                 </p>
               </div>
-            </div>
-            <CarManagement />
-          </TabsContent>
+              <AdminErrorBoundary>
+                <LeadManagement />
+              </AdminErrorBoundary>
+            </TabsContent>
 
-          <TabsContent value="leads" className="space-y-4 sm:space-y-6">
-            <div>
-              <h2 className="text-xl font-bold">Gestionare Lead-uri</h2>
-              <p className="text-sm text-muted-foreground">
-                Gestionează lead-urile primite din formulare
-              </p>
-            </div>
-            <LeadManagement />
-          </TabsContent>
-
-          <TabsContent value="newsletter" className="space-y-4 sm:space-y-6">
-            <div>
-              <h2 className="text-xl font-bold">Gestionare Newsletter</h2>
-              <p className="text-sm text-muted-foreground">
-                Gestionează abonamentele la newsletter
-              </p>
-            </div>
-            <NewsletterManagement />
-          </TabsContent>
-        </Tabs>
-      </main>
-    </div>
+            <TabsContent value="newsletter" className="space-y-4 sm:space-y-6">
+              <div>
+                <h2 className="text-xl font-bold">Gestionare Newsletter</h2>
+                <p className="text-sm text-muted-foreground">
+                  Gestionează abonamentele la newsletter
+                </p>
+              </div>
+              <AdminErrorBoundary>
+                <NewsletterManagement />
+              </AdminErrorBoundary>
+            </TabsContent>
+          </Tabs>
+        </main>
+      </div>
+    </AdminErrorBoundary>
   )
 }
 
