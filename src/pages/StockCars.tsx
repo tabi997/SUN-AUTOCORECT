@@ -34,11 +34,12 @@ const StockCars = () => {
   const [filters, setFilters] = useState({
     search: searchParams.get('search') || '',
     brand: searchParams.get('brand') || '',
+    model: searchParams.get('model') || '',
     fuel: searchParams.get('fuel') || '',
     transmission: searchParams.get('transmission') || '',
     minPrice: searchParams.get('minPrice') || '',
     maxPrice: searchParams.get('maxPrice') || '',
-    minYear: searchParams.get('minYear') || '',
+    minYear: searchParams.get('minYear') || searchParams.get('year') || '',
     maxYear: searchParams.get('maxYear') || ''
   })
   const [showFilters, setShowFilters] = useState(false)
@@ -81,6 +82,7 @@ const StockCars = () => {
       car.description?.toLowerCase().includes(filters.search.toLowerCase())
     
     const brandMatch = filters.brand === '' || car.brand === filters.brand
+    const modelMatch = filters.model === '' || car.model === filters.model
     const fuelMatch = filters.fuel === '' || car.fuel === filters.fuel
     const transmissionMatch = filters.transmission === '' || car.transmission === filters.transmission
     
@@ -90,7 +92,7 @@ const StockCars = () => {
     const yearMatch = (!filters.minYear || car.year >= parseInt(filters.minYear)) &&
                      (!filters.maxYear || car.year <= parseInt(filters.maxYear))
     
-    return searchMatch && brandMatch && fuelMatch && transmissionMatch && priceMatch && yearMatch
+    return searchMatch && brandMatch && modelMatch && fuelMatch && transmissionMatch && priceMatch && yearMatch
   })
 
   const brands = [...new Set(cars.map(car => car.brand))]
@@ -101,6 +103,7 @@ const StockCars = () => {
     setFilters({
       search: '',
       brand: '',
+      model: '',
       fuel: '',
       transmission: '',
       minPrice: '',

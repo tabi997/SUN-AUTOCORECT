@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, Car, Zap, Settings } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-sunrise-road.jpg";
 
 const Hero = () => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleViewAllCars = () => {
     navigate("/masini-in-stoc");
@@ -15,23 +17,77 @@ const Hero = () => {
     navigate("/vinde-masina");
   };
 
+  const handleSearch = () => {
+    // Navighează către pagina de stoc cu query-ul de căutare
+    if (searchQuery.trim()) {
+      navigate(`/masini-in-stoc?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate("/masini-in-stoc");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={heroImage}
-          alt="Urban sunrise over road - SUN AUTOCORECT"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/30" />
+    <>
+      {/* Search Form - Imediat după navbar */}
+      <div className="w-full bg-background/20 backdrop-blur-sm border-b border-white/20 shadow-lg pt-20">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col lg:flex-row gap-4 items-center">
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/70 h-5 w-5" />
+              <Input
+                placeholder="Caută după marcă, model sau descriere..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="pl-10 pr-4 py-3 text-lg h-12 bg-white/10 border-white/30 text-white placeholder:text-white/70 focus:bg-white/20 focus:border-white/50 w-full"
+              />
+            </div>
+            <div className="flex gap-3 w-full lg:w-auto">
+              <Button 
+                variant="solar" 
+                size="lg" 
+                onClick={handleSearch}
+                className="hover:shadow-sunrise flex-1 lg:flex-none"
+              >
+                <Search className="h-4 w-4 mr-2" />
+                Caută mașini
+              </Button>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                onClick={handleViewAllCars}
+                className="flex-1 lg:flex-none"
+              >
+                Vezi toate mașinile
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={heroImage}
+            alt="Urban sunrise over road - SUN AUTOCORECT"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/30" />
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl">
+
           {/* Hero Text */}
-          <div className="mb-12 text-center lg:text-left">
+          <div className="mb-12 text-center lg:text-left -mt-24">
             <p className="text-primary font-medium mb-4 tracking-wide uppercase">
               Transparență și Încredere
             </p>
@@ -48,78 +104,14 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Search Form */}
-          <div className="bg-card/95 backdrop-blur-sm border border-border rounded-2xl p-6 shadow-card">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              <Select>
-                <SelectTrigger className="h-12">
-                  <Car className="h-4 w-4 mr-2 text-muted-foreground" />
-                  <SelectValue placeholder="Marcă" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="audi">Audi</SelectItem>
-                  <SelectItem value="bmw">BMW</SelectItem>
-                  <SelectItem value="mercedes">Mercedes-Benz</SelectItem>
-                  <SelectItem value="volkswagen">Volkswagen</SelectItem>
-                  <SelectItem value="toyota">Toyota</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select>
-                <SelectTrigger className="h-12">
-                  <Settings className="h-4 w-4 mr-2 text-muted-foreground" />
-                  <SelectValue placeholder="Model" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="a4">A4</SelectItem>
-                  <SelectItem value="320d">320d</SelectItem>
-                  <SelectItem value="c-class">C-Class</SelectItem>
-                  <SelectItem value="passat">Passat</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select>
-                <SelectTrigger className="h-12">
-                  <SelectValue placeholder="An" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2024">2024</SelectItem>
-                  <SelectItem value="2023">2023</SelectItem>
-                  <SelectItem value="2022">2022</SelectItem>
-                  <SelectItem value="2021">2021</SelectItem>
-                  <SelectItem value="2020">2020</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select>
-                <SelectTrigger className="h-12">
-                  <Zap className="h-4 w-4 mr-2 text-muted-foreground" />
-                  <SelectValue placeholder="Combustibil" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="benzina">Benzină</SelectItem>
-                  <SelectItem value="diesel">Diesel</SelectItem>
-                  <SelectItem value="hybrid">Hybrid</SelectItem>
-                  <SelectItem value="electric">Electric</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Button variant="solar" size="lg" className="h-12 hover:shadow-sunrise">
-                <Search className="h-4 w-4 mr-2" />
-                Caută
-              </Button>
-            </div>
-          </div>
-
           {/* Quick Actions */}
           <div className="flex flex-wrap gap-4 mt-8">
-            <Button variant="accent" size="lg" onClick={handleViewAllCars}>
-              Vezi toate mașinile
-            </Button>
             <Button variant="outline" size="lg" onClick={handleSellCar}>
               Vinde mașina ta
             </Button>
           </div>
+
+
         </div>
       </div>
 
@@ -140,9 +132,10 @@ const Hero = () => {
             <div className="text-2xl font-bold text-primary">100%</div>
             <div className="text-sm text-muted-foreground">Verificate</div>
           </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
