@@ -7,6 +7,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   ArrowLeft, 
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   Heart, 
   Share2, 
   Phone, 
@@ -19,8 +22,7 @@ import {
   Car, 
   Shield, 
   CheckCircle,
-  Star,
-  MessageCircle
+  Star
 } from "lucide-react";
 import { CarWithImages } from "@/lib/supabase";
 import { carService } from "@/lib/services";
@@ -67,8 +69,42 @@ const CarDetails = () => {
     fetchCar();
   }, [id, toast]);
 
+  // Keyboard navigation for images
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!car || car.images.length <= 1) return;
+      
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        handlePreviousImage();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        handleNextImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [car]);
+
   const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
+  };
+
+  const handlePreviousImage = () => {
+    if (car && car.images.length > 0) {
+      setSelectedImageIndex((prev) => 
+        prev === 0 ? car.images.length - 1 : prev - 1
+      );
+    }
+  };
+
+  const handleNextImage = () => {
+    if (car && car.images.length > 0) {
+      setSelectedImageIndex((prev) => 
+        prev === car.images.length - 1 ? 0 : prev + 1
+      );
+    }
   };
 
   const handleFavorite = () => {
@@ -196,13 +232,43 @@ const CarDetails = () => {
           <div className="lg:col-span-2">
             {/* Image Gallery */}
             <div className="mb-8">
-              <div className="aspect-video rounded-2xl overflow-hidden mb-4">
+              <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 group">
                 <img
                   src={car.images[selectedImageIndex]?.image_url || primaryImage}
                   alt={`${car.brand} ${car.model}`}
                   className="w-full h-full object-cover"
                 />
+                
+                {/* Navigation Arrows */}
+                {car.images.length > 1 && (
+                  <>
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                      onClick={handlePreviousImage}
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90"
+                      onClick={handleNextImage}
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </Button>
+                  </>
+                )}
+                
+                {/* Image Counter */}
+                {car.images.length > 1 && (
+                  <div className="absolute bottom-4 right-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
+                    {selectedImageIndex + 1} / {car.images.length}
+                  </div>
+                )}
               </div>
+              
               {car.images.length > 1 && (
                 <div className="flex gap-2 overflow-x-auto">
                   {car.images.map((image, index) => (
@@ -381,15 +447,11 @@ const CarDetails = () => {
                 )}
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button className="w-full" size="lg">
+                <Button className="w-full" size="lg" onClick={() => handleContact('phone')}>
                   <Phone className="h-5 w-5 mr-2" />
                   Sună acum
                 </Button>
-                <Button variant="outline" className="w-full" size="lg">
-                  <MessageCircle className="h-5 w-5 mr-2" />
-                  Trimite mesaj
-                </Button>
-                <Button variant="outline" className="w-full" size="lg">
+                <Button variant="outline" className="w-full" size="lg" onClick={() => navigate('/contact')}>
                   <Mail className="h-5 w-5 mr-2" />
                   Solicită ofertă
                 </Button>
@@ -427,7 +489,7 @@ const CarDetails = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <Button variant="outline" className="w-full justify-start" onClick={() => handleContact('whatsapp')}>
-                  <MessageCircle className="h-4 w-4 mr-2" />
+                  <Phone className="h-4 w-4 mr-2" />
                   WhatsApp
                 </Button>
                 <Button variant="outline" className="w-full justify-start" onClick={() => handleContact('phone')}>

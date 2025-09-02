@@ -65,18 +65,19 @@ const CarCard = ({ car, className }: CarCardProps) => {
         </Link>
         
         {/* Overlay Actions */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
-          <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          <Button size="sm" variant="secondary" className="h-8 w-8 p-0 pointer-events-auto">
+            <Heart className="h-4 w-4" />
+          </Button>
+          <Link to={`/masina/${id}`} className="pointer-events-auto">
             <Button size="sm" variant="secondary" className="h-8 w-8 p-0">
-              <Heart className="h-4 w-4" />
+              <Eye className="h-4 w-4" />
             </Button>
-            <Link to={`/masina/${id}`}>
-              <Button size="sm" variant="secondary" className="h-8 w-8 p-0">
-                <Eye className="h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+          </Link>
         </div>
+        
+        {/* Hover Overlay */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 pointer-events-none"></div>
 
         {/* Featured Badge */}
         {featured && (
