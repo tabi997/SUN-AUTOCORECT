@@ -6,7 +6,6 @@ const Footer = () => {
   const quickLinks = [
     { label: "Acasă", href: "#" },
     { label: "Mașini în stoc", href: "#stock" },
-    { label: "Finanțare", href: "#financing" },
     { label: "Despre noi", href: "#about" },
   ];
 

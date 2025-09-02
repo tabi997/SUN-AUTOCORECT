@@ -9,8 +9,7 @@ import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import StockCars from "./pages/StockCars";
-import CustomOrder from "./pages/CustomOrder";
-import Financing from "./pages/Financing";
+
 import SellCar from "./pages/SellCar";
 import About from "./pages/About";
 import CarDetails from "./pages/CarDetails";
@@ -28,8 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/masini-in-stoc" element={<StockCars />} />
             <Route path="/masina/:id" element={<CarDetails />} />
-            <Route path="/masina-la-comanda" element={<CustomOrder />} />
-            <Route path="/finantare" element={<Financing />} />
+
             <Route path="/vinde-masina" element={<SellCar />} />
             <Route path="/despre-noi" element={<About />} />
             <Route path="/login" element={<Login />} />
