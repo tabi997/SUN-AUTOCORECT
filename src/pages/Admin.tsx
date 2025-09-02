@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/hooks/use-auth'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -26,7 +26,45 @@ import AdminErrorBoundary from '@/components/admin/AdminErrorBoundary'
 const Admin = () => {
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [activeTab, setActiveTab] = useState('dashboard')
+
+  // Handle URL tab parameter
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+    const tabParam = urlParams.get('tab')
+    console.log('URL changed, tab param:', tabParam)
+    
+    if (tabParam && ['dashboard', 'cars', 'leads', 'newsletter', 'contact'].includes(tabParam)) {
+      console.log('Setting active tab to:', tabParam)
+      setActiveTab(tabParam)
+    }
+  }, [location.search])
+
+  // Listen for custom tab change events from quick action buttons
+  useEffect(() => {
+    const handleTabChange = (event: CustomEvent) => {
+      const newTab = event.detail
+      console.log('Received tab change event:', newTab)
+      if (['dashboard', 'cars', 'leads', 'newsletter', 'contact'].includes(newTab)) {
+        setActiveTab(newTab)
+        console.log('Active tab set to:', newTab)
+      }
+    }
+
+    window.addEventListener('tabChange', handleTabChange as EventListener)
+    
+    return () => {
+      window.removeEventListener('tabChange', handleTabChange as EventListener)
+    }
+  }, [])
+
+  // Update URL when tab changes
+  const handleTabChange = (value: string) => {
+    console.log('Tab changed to:', value)
+    setActiveTab(value)
+    navigate(`/admin?tab=${value}`)
+  }
 
   const handleSignOut = async () => {
     try {
@@ -85,7 +123,7 @@ const Admin = () => {
 
         {/* Main Content */}
         <main className="w-full max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 overflow-x-hidden">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 sm:space-y-6">
+          <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4 sm:space-y-6">
             <TabsList className="grid w-full grid-cols-5 h-auto">
               <TabsTrigger value="dashboard" className="flex flex-col items-center space-y-1 text-xs py-3">
                 <TrendingUp className="h-4 w-4" />

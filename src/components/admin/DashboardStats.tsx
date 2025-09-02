@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Car, Users, Mail, TrendingUp, Eye, DollarSign } from 'lucide-react'
@@ -6,6 +7,7 @@ import { carService, leadService, newsletterService } from '@/lib/services'
 import { Car as CarType, Lead, NewsletterSubscription } from '@/lib/supabase'
 
 const DashboardStats = () => {
+  const navigate = useNavigate()
   const [stats, setStats] = useState({
     totalCars: 0,
     featuredCars: 0,
@@ -161,29 +163,59 @@ const DashboardStats = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            <div className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer">
+            <button 
+              className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer w-full text-left"
+              onClick={() => {
+                console.log('Clicking cars button')
+                // Update URL
+                window.history.pushState({}, '', '/admin?tab=cars')
+                // Dispatch custom event to notify Admin component
+                window.dispatchEvent(new CustomEvent('tabChange', { detail: 'cars' }))
+                console.log('Tab change event dispatched for cars')
+              }}
+            >
               <Car className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
               <div>
                 <p className="font-medium text-sm sm:text-base">Adaugă Mașină</p>
                 <p className="text-xs sm:text-sm text-muted-foreground">Publică un anunț nou</p>
               </div>
-            </div>
+            </button>
             
-            <div className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer">
+            <button 
+              className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer w-full text-left"
+              onClick={() => {
+                console.log('Clicking leads button')
+                // Update URL
+                window.history.pushState({}, '', '/admin?tab=leads')
+                // Dispatch custom event to notify Admin component
+                window.dispatchEvent(new CustomEvent('tabChange', { detail: 'leads' }))
+                console.log('Tab change event dispatched for leads')
+              }}
+            >
               <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
               <div>
                 <p className="font-medium text-sm sm:text-base">Vezi Lead-uri</p>
                 <p className="text-xs sm:text-sm text-muted-foreground">Gestionează contactele</p>
               </div>
-            </div>
+            </button>
             
-            <div className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer sm:col-span-2 lg:col-span-1">
+            <button 
+              className="flex items-center space-x-2 sm:space-x-3 p-3 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer w-full text-left sm:col-span-2 lg:col-span-1"
+              onClick={() => {
+                console.log('Clicking newsletter button')
+                // Update URL
+                window.history.pushState({}, '', '/admin?tab=newsletter')
+                // Dispatch custom event to notify Admin component
+                window.dispatchEvent(new CustomEvent('tabChange', { detail: 'newsletter' }))
+                console.log('Tab change event dispatched for newsletter')
+              }}
+            >
               <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-primary flex-shrink-0" />
               <div>
                 <p className="font-medium text-sm sm:text-base">Newsletter</p>
                 <p className="text-xs sm:text-sm text-muted-foreground">Gestionare abonamente</p>
               </div>
-            </div>
+            </button>
           </div>
         </CardContent>
       </Card>
