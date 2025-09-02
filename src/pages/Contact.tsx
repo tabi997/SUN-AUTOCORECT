@@ -1,0 +1,376 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
+import { leadService } from "@/lib/services";
+import { Mail, Phone, MapPin, Clock, Send, Sun } from "lucide-react";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      toast({
+        title: "Eroare de validare",
+        description: "Numele este obligatoriu",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    if (!formData.email.trim()) {
+      toast({
+        title: "Eroare de validare",
+        description: "Email-ul este obligatoriu",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast({
+        title: "Eroare de validare",
+        description: "Email-ul nu este valid",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    if (!formData.message.trim()) {
+      toast({
+        title: "Eroare de validare",
+        description: "Mesajul este obligatoriu",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    if (formData.message.trim().length < 10) {
+      toast({
+        title: "Eroare de validare",
+        description: "Mesajul trebuie să aibă cel puțin 10 caractere",
+        variant: "destructive"
+      });
+      return false;
+    }
+    
+    return true;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      await leadService.createLead({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim() || undefined,
+        message: formData.message.trim(),
+        source: 'contact',
+        status: 'new'
+      });
+      
+      toast({
+        title: "Mesaj trimis cu succes!",
+        description: "Vă mulțumim pentru mesaj. Vă vom contacta în cel mai scurt timp.",
+        variant: "default"
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+      });
+      
+    } catch (error) {
+      console.error("Error creating lead:", error);
+      toast({
+        title: "Eroare la trimiterea mesajului",
+        description: "A apărut o eroare. Vă rugăm să încercați din nou.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <main>
+        <div className="bg-gradient-to-br from-background via-background to-secondary/20">
+          {/* Hero Section */}
+          <section className="relative py-20 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-solar opacity-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-background/30" />
+            
+            <div className="container mx-auto px-4 relative z-10">
+              <div className="text-center max-w-3xl mx-auto">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/20 rounded-full mb-6">
+                  <Sun className="w-8 h-8 text-primary" />
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold font-heading mb-6">
+                  Contactează-ne
+                </h1>
+                <p className="text-xl text-muted-foreground mb-8">
+                  Suntem aici să te ajutăm să găsești mașina perfectă. 
+                  Luminează-ți viitorul cu SUN AUTOCORECT.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Contact Content */}
+          <section className="py-16">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {/* Contact Form */}
+                <div className="space-y-8">
+                  <div>
+                    <h2 className="text-3xl font-bold font-heading mb-4">
+                      Trimite-ne un mesaj
+                    </h2>
+                    <p className="text-muted-foreground">
+                      Completează formularul de mai jos și te vom contacta în cel mai scurt timp.
+                    </p>
+                  </div>
+
+                  <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <Send className="w-5 h-5 text-primary" />
+                        Formular de contact
+                      </CardTitle>
+                      <CardDescription>
+                        Toate câmpurile marcate cu * sunt obligatorii
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="name" className="text-sm font-medium">
+                              Nume complet *
+                            </Label>
+                            <Input
+                              id="name"
+                              name="name"
+                              type="text"
+                              placeholder="Introdu numele tău"
+                              value={formData.name}
+                              onChange={handleInputChange}
+                              className="h-11 border-border/50 focus:border-primary focus:ring-primary/20"
+                              required
+                            />
+                          </div>
+                          
+                          <div className="space-y-2">
+                            <Label htmlFor="email" className="text-sm font-medium">
+                              Email *
+                            </Label>
+                            <Input
+                              id="email"
+                              name="email"
+                              type="email"
+                              placeholder="email@exemplu.com"
+                              value={formData.email}
+                              onChange={handleInputChange}
+                              className="h-11 border-border/50 focus:border-primary focus:ring-primary/20"
+                              required
+                            />
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="phone" className="text-sm font-medium">
+                            Telefon (opțional)
+                          </Label>
+                          <Input
+                            id="phone"
+                            name="phone"
+                            type="tel"
+                            placeholder="+40 123 456 789"
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            className="h-11 border-border/50 focus:border-primary focus:ring-primary/20"
+                          />
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="message" className="text-sm font-medium">
+                            Mesajul tău *
+                          </Label>
+                          <Textarea
+                            id="message"
+                            name="message"
+                            placeholder="Scrie-ne mesajul tău aici..."
+                            value={formData.message}
+                            onChange={handleInputChange}
+                            rows={5}
+                            className="border-border/50 focus:border-primary focus:ring-primary/20 resize-none"
+                            required
+                          />
+                        </div>
+                        
+                        <Button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full h-12 bg-gradient-solar hover:shadow-sunrise transition-all duration-300"
+                          size="lg"
+                        >
+                          {isSubmitting ? (
+                            <div className="flex items-center gap-2">
+                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              Se trimite...
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-2">
+                              <Send className="w-4 h-4" />
+                              Trimite mesajul
+                            </div>
+                          )}
+                        </Button>
+                      </form>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Contact Information */}
+                <div className="space-y-8">
+                  <div>
+                    <h2 className="text-3xl font-bold font-heading mb-4">
+                      Informații de contact
+                    </h2>
+                    <p className="text-muted-foreground">
+                      Găsește-ne ușor și contactează-ne pentru orice întrebare ai avea.
+                    </p>
+                  </div>
+
+                  <div className="space-y-6">
+                    <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+                      <CardContent className="p-6">
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <MapPin className="w-6 h-6 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-lg mb-2">Adresa noastră</h3>
+                            <p className="text-muted-foreground">
+                              Strada Exemplului, Nr. 123<br />
+                              Sectorul 1, București<br />
+                              România
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+                      <CardContent className="p-6">
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Phone className="w-6 h-6 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-lg mb-2">Telefon</h3>
+                            <p className="text-muted-foreground">
+                              <a href="tel:+40123456789" className="hover:text-primary transition-colors">
+                                +40 123 456 789
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+                      <CardContent className="p-6">
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Mail className="w-6 h-6 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-lg mb-2">Email</h3>
+                            <p className="text-muted-foreground">
+                              <a href="mailto:contact@sunautocorect.ro" className="hover:text-primary transition-colors">
+                                contact@sunautocorect.ro
+                              </a>
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
+                      <CardContent className="p-6">
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Clock className="w-6 h-6 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="font-semibold text-lg mb-2">Program de lucru</h3>
+                            <p className="text-muted-foreground">
+                              <strong>Luni - Vineri:</strong> 9:00 - 18:00<br />
+                              <strong>Sâmbătă:</strong> 9:00 - 14:00<br />
+                              <strong>Duminică:</strong> Închis
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Additional Info */}
+                  <Card className="border-border/50 bg-gradient-to-br from-primary/10 to-accent/10 backdrop-blur-sm">
+                    <CardContent className="p-6">
+                      <div className="text-center">
+                        <Sun className="w-12 h-12 text-primary mx-auto mb-4" />
+                        <h3 className="font-semibold text-lg mb-2">
+                          De ce să alegi SUN AUTOCORECT?
+                        </h3>
+                        <p className="text-muted-foreground">
+                          Transparență totală în fiecare tranzacție, verificare amănunțită a fiecărui vehicul, 
+                          și servicii de calitate superioară. Luminează-ți viitorul cu încrederea noastră.
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default Contact;

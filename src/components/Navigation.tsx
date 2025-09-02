@@ -13,6 +13,7 @@ const Navigation = () => {
     { label: "Mașini în Stoc", href: "/masini-in-stoc" },
     { label: "Vinde mașina", href: "/vinde-masina" },
     { label: "Despre noi", href: "/despre-noi" },
+    { label: "Contact", href: "/contact" },
   ];
 
   const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number

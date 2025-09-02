@@ -4,9 +4,10 @@ import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, Shield, File
 
 const Footer = () => {
   const quickLinks = [
-    { label: "Acasă", href: "#" },
-    { label: "Mașini în stoc", href: "#stock" },
-    { label: "Despre noi", href: "#about" },
+    { label: "Acasă", href: "/" },
+    { label: "Mașini în stoc", href: "/masini-in-stoc" },
+    { label: "Despre noi", href: "/despre-noi" },
+    { label: "Contact", href: "/contact" },
   ];
 
   const services = [

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, ArrowUp } from "lucide-react";
+import { MessageCircle, ArrowUp, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 const FloatingButtons = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const navigate = useNavigate();
 
   const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
   const whatsappNumber = phoneNumber.replace(/\s/g, "");
@@ -22,6 +24,10 @@ const FloatingButtons = () => {
     });
   };
 
+  const handleContactClick = () => {
+    navigate('/contact');
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
@@ -33,6 +39,19 @@ const FloatingButtons = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-4">
+      {/* Contact Button - Enhanced with solar theme */}
+      <div className="relative group">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-accent/40 rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+        <Button
+          onClick={handleContactClick}
+          size="lg"
+          className="relative h-14 w-14 rounded-full bg-gradient-to-br from-primary to-accent hover:from-primary-dark hover:to-accent-dark shadow-2xl hover:shadow-primary/25 transition-all duration-500 hover:scale-110 border-2 border-primary/20"
+          title="Pagina de contact"
+        >
+          <Mail className="h-6 w-6 text-white" />
+        </Button>
+      </div>
+
       {/* WhatsApp Button - Enhanced with solar theme */}
       <div className="relative group">
         <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>

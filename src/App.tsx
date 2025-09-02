@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import StockCars from "./pages/StockCars";
 import SellCar from "./pages/SellCar";
+import Contact from "./pages/Contact";
 import About from "./pages/About";
 import CarDetails from "./pages/CarDetails";
 import PoliticaCookies from "./pages/PoliticaCookies";
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/masini-in-stoc" element={<StockCars />} />
             <Route path="/masina/:id" element={<CarDetails />} />
             <Route path="/vinde-masina" element={<SellCar />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/despre-noi" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin" element={<Admin />} />
