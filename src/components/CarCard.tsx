@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Heart, Eye, Calendar, Gauge, Fuel, Settings, Images } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CarWithImages } from "@/lib/supabase";
+import { Link } from "react-router-dom";
 
 interface CarCardProps {
   car: CarWithImages;
@@ -38,22 +39,24 @@ const CarCard = ({ car, className }: CarCardProps) => {
     )}>
       {/* Image Container */}
       <div className="relative overflow-hidden">
-        {primaryImage ? (
-          <img
-            src={primaryImage}
-            alt={`${brand} ${model}`}
-            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        ) : (
-          <div className="w-full h-48 bg-muted flex items-center justify-center">
-            <div className="text-muted-foreground text-center">
-              <div className="w-16 h-16 bg-muted-foreground/20 rounded-full flex items-center justify-center mx-auto mb-2">
-                <Calendar className="h-8 w-8" />
+        <Link to={`/masina/${id}`}>
+          {primaryImage ? (
+            <img
+              src={primaryImage}
+              alt={`${brand} ${model}`}
+              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
+            />
+          ) : (
+            <div className="w-full h-48 bg-muted flex items-center justify-center cursor-pointer">
+              <div className="text-muted-foreground text-center">
+                <div className="w-16 h-16 bg-muted-foreground/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                  <Calendar className="h-8 w-8" />
+                </div>
+                <p className="text-sm">Fără imagine</p>
               </div>
-              <p className="text-sm">Fără imagine</p>
             </div>
-          </div>
-        )}
+          )}
+        </Link>
         
         {/* Overlay Actions */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
@@ -61,9 +64,11 @@ const CarCard = ({ car, className }: CarCardProps) => {
             <Button size="sm" variant="secondary" className="h-8 w-8 p-0">
               <Heart className="h-4 w-4" />
             </Button>
-            <Button size="sm" variant="secondary" className="h-8 w-8 p-0">
-              <Eye className="h-4 w-4" />
-            </Button>
+            <Link to={`/masina/${id}`}>
+              <Button size="sm" variant="secondary" className="h-8 w-8 p-0">
+                <Eye className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -143,10 +148,12 @@ const CarCard = ({ car, className }: CarCardProps) => {
 
         {/* Actions */}
         <div className="flex gap-2">
-          <Button variant="outline" className="flex-1">
-            <Eye className="h-4 w-4 mr-2" />
-            Vezi detalii
-          </Button>
+          <Link to={`/masina/${id}`} className="flex-1">
+            <Button variant="outline" className="w-full">
+              <Eye className="h-4 w-4 mr-2" />
+              Vezi detalii
+            </Button>
+          </Link>
           <Button className="flex-1">
             Contactează
           </Button>

@@ -10,10 +10,10 @@ const Navigation = () => {
   const navItems = [
     { label: "Acasă", href: "/" },
     { label: "Mașini în Stoc", href: "/masini-in-stoc" },
-    { label: "Mașină la comandă", href: "#custom" },
-    { label: "Finanțare", href: "#financing" },
-    { label: "Vinde mașina", href: "#sell" },
-    { label: "Despre noi", href: "#about" },
+    { label: "Mașină la comandă", href: "/masina-la-comanda" },
+    { label: "Finanțare", href: "/finantare" },
+    { label: "Vinde mașina", href: "/vinde-masina" },
+    { label: "Despre noi", href: "/despre-noi" },
   ];
 
   return (
