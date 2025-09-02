@@ -232,11 +232,71 @@ const CarDetails = () => {
           <div className="lg:col-span-2">
             {/* Image Gallery */}
             <div className="mb-6 sm:mb-8">
-              <div className="relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden mb-3 sm:mb-4 group">
+              <div className="relative aspect-[4/3] sm:aspect-video rounded-xl sm:rounded-2xl overflow-hidden mb-3 sm:mb-4 group">
                 <img
                   src={car.images[selectedImageIndex]?.image_url || primaryImage}
                   alt={`${car.brand} ${car.model}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover cursor-pointer"
+                  onClick={() => {
+                    // Open image in fullscreen on mobile
+                    if (window.innerWidth < 768) {
+                      const img = new Image();
+                      img.src = car.images[selectedImageIndex]?.image_url || primaryImage;
+                      img.style.maxWidth = '100vw';
+                      img.style.maxHeight = '100vh';
+                      img.style.objectFit = 'contain';
+                      img.style.position = 'fixed';
+                      img.style.top = '50%';
+                      img.style.left = '50%';
+                      img.style.transform = 'translate(-50%, -50%)';
+                      img.style.zIndex = '9999';
+                      img.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                      img.style.padding = '20px';
+                      img.style.borderRadius = '8px';
+                      
+                      const overlay = document.createElement('div');
+                      overlay.style.position = 'fixed';
+                      overlay.style.top = '0';
+                      overlay.style.left = '0';
+                      overlay.style.width = '100vw';
+                      overlay.style.height = '100vh';
+                      overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                      overlay.style.zIndex = '9998';
+                      overlay.style.display = 'flex';
+                      overlay.style.alignItems = 'center';
+                      overlay.style.justifyContent = 'center';
+                      
+                      const closeBtn = document.createElement('button');
+                      closeBtn.innerHTML = '✕';
+                      closeBtn.style.position = 'absolute';
+                      closeBtn.style.top = '20px';
+                      closeBtn.style.right = '20px';
+                      closeBtn.style.background = 'rgba(255,255,255,0.2)';
+                      closeBtn.style.border = 'none';
+                      closeBtn.style.borderRadius = '50%';
+                      closeBtn.style.width = '40px';
+                      closeBtn.style.height = '40px';
+                      closeBtn.style.color = 'white';
+                      closeBtn.style.fontSize = '20px';
+                      closeBtn.style.cursor = 'pointer';
+                      closeBtn.style.zIndex = '10000';
+                      
+                      const closeModal = () => {
+                        document.body.removeChild(overlay);
+                        document.body.style.overflow = '';
+                      };
+                      
+                      closeBtn.onclick = closeModal;
+                      overlay.onclick = (e) => {
+                        if (e.target === overlay) closeModal();
+                      };
+                      
+                      overlay.appendChild(img);
+                      overlay.appendChild(closeBtn);
+                      document.body.appendChild(overlay);
+                      document.body.style.overflow = 'hidden';
+                    }
+                  }}
                 />
                 
                 {/* Navigation Arrows */}
@@ -270,14 +330,14 @@ const CarDetails = () => {
               </div>
               
               {car.images.length > 1 && (
-                <div className="flex gap-2 overflow-x-auto pb-2">
+                <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
                   {car.images.map((image, index) => (
                     <button
                       key={image.id}
                       onClick={() => handleImageClick(index)}
-                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                      className={`flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 transition-all ${
                         index === selectedImageIndex 
-                          ? 'border-primary' 
+                          ? 'border-primary ring-2 ring-primary/20' 
                           : 'border-border hover:border-primary/50'
                       }`}
                     >
