@@ -346,23 +346,62 @@ const Contact = () => {
                       </CardContent>
                     </Card>
                   </div>
-
-                  {/* Additional Info */}
-                  <Card className="border-border/50 bg-gradient-to-br from-primary/10 to-accent/10 backdrop-blur-sm">
-                    <CardContent className="p-6">
-                      <div className="text-center">
-                        <Sun className="w-12 h-12 text-primary mx-auto mb-4" />
-                        <h3 className="font-semibold text-lg mb-2">
-                          De ce să alegi SUN AUTOCORECT?
-                        </h3>
-                        <p className="text-muted-foreground">
-                          Transparență totală în fiecare tranzacție, verificare amănunțită a fiecărui vehicul, 
-                          și servicii de calitate superioară. Luminează-ți viitorul cu încrederea noastră.
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Why Choose Us Banner - Full Width */}
+          <section className="py-20 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                <Card className="border-border/50 bg-gradient-to-br from-primary/10 via-accent/10 to-primary/10 backdrop-blur-sm shadow-xl">
+                  <CardContent className="p-12">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-primary/20 rounded-full mb-8">
+                      <Sun className="w-10 h-10 text-primary" />
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-bold font-heading mb-6 text-foreground">
+                      De ce să alegi SUN AUTOCORECT?
+                    </h2>
+                    <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
+                      Transparență totală în fiecare tranzacție, verificare amănunțită a fiecărui vehicul, 
+                      și servicii de calitate superioară. Luminează-ți viitorul cu încrederea noastră.
+                    </p>
+                    
+                    {/* Additional Benefits Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-semibold text-lg mb-2">Transparență Totală</h3>
+                        <p className="text-muted-foreground">Fiecare vehicul este verificat și documentat cu amănunțime</p>
+                      </div>
+                      
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-semibold text-lg mb-2">Calitate Superioară</h3>
+                        <p className="text-muted-foreground">Servicii profesionale și suport post-vânzare excepțional</p>
+                      </div>
+                      
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-semibold text-lg mb-2">Încredere Garantată</h3>
+                        <p className="text-muted-foreground">Relații pe termen lung bazate pe încredere și satisfacție</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </section>

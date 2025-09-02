@@ -2,13 +2,13 @@ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Car, CheckCircle, Clock, Heart, MapPin, Phone, Mail, Users, Award, Shield, TrendingUp } from "lucide-react";
+import { Car, CheckCircle, Clock, Heart, MapPin, Phone, Mail, Users, Award, Shield, TrendingUp, Sun } from "lucide-react";
 
 const About = () => {
   const companyStats = [
-    { number: "15+", label: "Ani de experiență", icon: <Award className="h-6 w-6" /> },
-    { number: "5000+", label: "Mașini vândute", icon: <Car className="h-6 w-6" /> },
-    { number: "10000+", label: "Clienți mulțumiți", icon: <Heart className="h-6 w-6" /> },
+    { number: "20+", label: "Ani de experiență", icon: <Award className="h-6 w-6" /> },
+    { number: "500+", label: "Mașini vândute", icon: <Car className="h-6 w-6" /> },
+    { number: "500+", label: "Clienți mulțumiți", icon: <Heart className="h-6 w-6" /> },
     { number: "24/7", label: "Suport client", icon: <Clock className="h-6 w-6" /> }
   ];
 
@@ -45,7 +45,7 @@ const About = () => {
             Despre SUN AUTOCORECT
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Suntem o companie românească cu peste 15 ani de experiență în industria auto, 
+            Suntem o companie românească cu peste 20 de ani de experiență în industria auto, 
             dedicată să ofere clienților noștri cele mai bune servicii și mașini de calitate.
           </p>
         </div>
@@ -71,28 +71,71 @@ const About = () => {
             <h2 className="text-3xl font-bold font-heading mb-6">Povestea noastră</h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                SUN AUTOCORECT a fost înființată în anul 2009 de către Ion Popescu, un pasionat 
-                al industriei auto cu peste 20 de ani de experiență în domeniu.
+                SUN AUTOCORECT a fost înființată de către Mihai, un pasionat al industriei auto 
+                cu peste 20 de ani de experiență în domeniu, care a început să lucreze cu mașini 
+                încă din tinerețe.
               </p>
               <p>
                 Începând ca o mică afacere de familie, am crescut constant, învățând din fiecare 
-                experiență și adaptându-ne la nevoile în schimbare ale clienților noștri.
+                experiență și adaptându-ne la nevoile în schimbare ale clienților noștri. 
+                Fiecare mașină vândută ne-a învățat ceva nou despre calitate și serviciu.
               </p>
               <p>
                 Astăzi, suntem recunoscuți ca unul dintre cei mai de încredere dealeri auto din 
-                regiune, cu un portofoliu impresionant de mașini și o bază solidă de clienți mulțumiți.
+                regiune, cu un portofoliu select de mașini și o bază solidă de clienți mulțumiți 
+                care ne recomandă prietenilor și familiei.
               </p>
               <p>
                 Misiunea noastră rămâne aceeași: să oferim clienților noștri mașini de calitate 
-                superioară, servicii profesionale și o experiență de cumpărare transparentă și plăcută.
+                superioară, servicii profesionale și o experiență de cumpărare transparentă și plăcută, 
+                așa cum ne-am dorit noi să găsim când am început această călătorie.
               </p>
             </div>
           </div>
           <div className="relative">
-            <div className="aspect-video rounded-2xl bg-muted flex items-center justify-center">
-              <div className="text-center text-muted-foreground">
-                <Car className="h-16 w-16 mx-auto mb-4" />
-                <p>Imagine cu echipa noastră</p>
+            {/* Custom SUN AUTOCORECT Brand Image */}
+            <div className="aspect-video rounded-2xl bg-gradient-to-br from-primary/20 via-accent/20 to-primary/20 border border-primary/30 flex items-center justify-center overflow-hidden">
+              <div className="text-center relative">
+                {/* Sun Rays Background */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 animate-pulse"></div>
+                </div>
+                
+                {/* Sun Icon with Rays */}
+                <div className="relative z-10">
+                  <div className="w-24 h-24 mx-auto mb-4 relative">
+                    {/* Main Sun Circle */}
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
+                      <Sun className="h-12 w-12 text-white" />
+                    </div>
+                    
+                    {/* Sun Rays */}
+                    <div className="absolute inset-0 animate-spin-slow">
+                      {[...Array(8)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute w-1 h-8 bg-gradient-to-b from-primary to-transparent rounded-full"
+                          style={{
+                            transform: `rotate(${i * 45}deg) translateY(-40px)`,
+                            transformOrigin: 'center 40px'
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Brand Text */}
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-bold text-primary">SUN AUTOCORECT</h3>
+                    <p className="text-sm text-muted-foreground max-w-xs">
+                      Luminează-ți viitorul cu încrederea noastră
+                    </p>
+                  </div>
+                  
+                  {/* Decorative Elements */}
+                  <div className="absolute top-4 right-4 w-3 h-3 bg-primary/50 rounded-full animate-ping"></div>
+                  <div className="absolute bottom-4 left-4 w-2 h-2 bg-accent/50 rounded-full animate-pulse"></div>
+                </div>
               </div>
             </div>
           </div>
