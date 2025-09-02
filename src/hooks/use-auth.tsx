@@ -20,7 +20,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Obține sesiunea inițială
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    console.log('🔍 useAuth: Încep verificarea sesiunii...')
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('❌ useAuth: Eroare la obținerea sesiunii:', error)
+      } else {
+        console.log('✅ useAuth: Sesiune obținută:', !!session, 'user:', session?.user?.email)
+      }
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
@@ -29,7 +35,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Ascultă pentru schimbări de autentificare
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('🔄 useAuth: Auth state change:', event, 'user:', session?.user?.email)
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
