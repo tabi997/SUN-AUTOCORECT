@@ -183,7 +183,7 @@ const CarDetails = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 pt-16 sm:pt-20">
+      <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8 pt-20">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6">
           <Button variant="ghost" size="sm" onClick={() => navigate('/masini-in-stoc')} className="text-xs sm:text-sm">
@@ -197,7 +197,7 @@ const CarDetails = () => {
         </div>
 
         {/* Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-4 sm:gap-6 mb-4 sm:mb-6 md:mb-8">
           <div className="flex-1">
             <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
               {car.featured && (
@@ -210,34 +210,36 @@ const CarDetails = () => {
                 {car.year}
               </Badge>
             </div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold font-heading mb-2 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading mb-2 leading-tight">
               {car.brand} {car.model}
             </h1>
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground">
+            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground">
               {car.kilometers.toLocaleString()} km • {car.fuel} • {car.transmission}
             </p>
           </div>
           <div className="flex items-center gap-2 sm:gap-3 self-end">
-            <Button variant="outline" size="icon" onClick={handleFavorite} className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10">
-              <Heart className={`h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
+            <Button variant="outline" size="icon" onClick={handleFavorite} className="h-9 w-9 sm:h-10 sm:w-10">
+              <Heart className={`h-4 w-4 sm:h-5 sm:w-5 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
             </Button>
-            <Button variant="outline" size="icon" onClick={handleShare} className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10">
-              <Share2 className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+            <Button variant="outline" size="icon" onClick={handleShare} className="h-9 w-9 sm:h-10 sm:w-10">
+              <Share2 className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Main Content */}
-          <div className="lg:col-span-2 order-2 lg:order-1">
+          <div className="lg:col-span-2">
             {/* Image Gallery */}
-            <div className="mb-6 sm:mb-8">
-              <div className="relative aspect-[4/3] sm:aspect-video rounded-xl sm:rounded-2xl overflow-hidden mb-3 sm:mb-4 group">
-                <img
-                  src={car.images[selectedImageIndex]?.image_url || primaryImage}
-                  alt={`${car.brand} ${car.model}`}
-                  className="w-full h-full object-cover cursor-pointer"
-                  onClick={() => {
+            <div className="mb-4 sm:mb-6 md:mb-8">
+              {/* Mobile: Natural image size, Desktop: Fixed aspect ratio */}
+              <div className="relative w-full sm:aspect-video sm:rounded-2xl sm:overflow-hidden mb-3 sm:mb-4 group bg-muted/20">
+                <div className="w-full sm:h-full flex items-center justify-center">
+                  <img
+                    src={car.images[selectedImageIndex]?.image_url || primaryImage}
+                    alt={`${car.brand} ${car.model}`}
+                    className="w-full h-auto max-h-[600px] sm:h-full sm:w-full sm:max-h-none sm:object-cover object-contain cursor-pointer rounded-lg sm:rounded-none"
+                    onClick={() => {
                     // Open image in fullscreen on mobile
                     if (window.innerWidth < 768) {
                       const img = new Image();
@@ -298,6 +300,7 @@ const CarDetails = () => {
                     }
                   }}
                 />
+                </div>
                 
                 {/* Navigation Arrows */}
                 {car.images.length > 1 && (
@@ -305,7 +308,7 @@ const CarDetails = () => {
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90 h-8 w-8 sm:h-10 sm:w-10"
+                      className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 bg-background/90 backdrop-blur-sm hover:bg-background/95 h-8 w-8 sm:h-10 sm:w-10 shadow-lg"
                       onClick={handlePreviousImage}
                     >
                       <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -313,7 +316,7 @@ const CarDetails = () => {
                     <Button
                       variant="secondary"
                       size="icon"
-                      className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-background/80 backdrop-blur-sm hover:bg-background/90 h-8 w-8 sm:h-10 sm:w-10"
+                      className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 bg-background/90 backdrop-blur-sm hover:bg-background/95 h-8 w-8 sm:h-10 sm:w-10 shadow-lg"
                       onClick={handleNextImage}
                     >
                       <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -335,7 +338,7 @@ const CarDetails = () => {
                     <button
                       key={image.id}
                       onClick={() => handleImageClick(index)}
-                      className={`flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 transition-all ${
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 transition-all ${
                         index === selectedImageIndex 
                           ? 'border-primary ring-2 ring-primary/20' 
                           : 'border-border hover:border-primary/50'
@@ -355,27 +358,27 @@ const CarDetails = () => {
             {/* Tabs */}
             <Tabs defaultValue="description" className="mb-4 sm:mb-6 md:mb-8">
               <TabsList className="grid w-full grid-cols-3 h-auto">
-                <TabsTrigger value="description" className="text-xs sm:text-sm py-1.5 sm:py-2 md:py-3">Descriere</TabsTrigger>
-                <TabsTrigger value="specifications" className="text-xs sm:text-sm py-1.5 sm:py-2 md:py-3">Specificații</TabsTrigger>
-                <TabsTrigger value="features" className="text-xs sm:text-sm py-1.5 sm:py-2 md:py-3">Caracteristici</TabsTrigger>
+                <TabsTrigger value="description" className="text-xs sm:text-sm py-2 sm:py-3">Descriere</TabsTrigger>
+                <TabsTrigger value="specifications" className="text-xs sm:text-sm py-2 sm:py-3">Specificații</TabsTrigger>
+                <TabsTrigger value="features" className="text-xs sm:text-sm py-2 sm:py-3">Caracteristici</TabsTrigger>
               </TabsList>
               
-              <TabsContent value="description" className="mt-3 sm:mt-4 md:mt-6">
+              <TabsContent value="description" className="mt-4 sm:mt-6">
                 <Card>
-                  <CardContent className="pt-3 sm:pt-4 md:pt-6">
-                    <p className="text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+                  <CardContent className="pt-4 sm:pt-6">
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                       {car.description || "Nu există o descriere disponibilă pentru această mașină."}
                     </p>
                   </CardContent>
                 </Card>
               </TabsContent>
               
-              <TabsContent value="specifications" className="mt-3 sm:mt-4 md:mt-6">
+              <TabsContent value="specifications" className="mt-4 sm:mt-6">
                 <Card>
-                  <CardContent className="pt-3 sm:pt-4 md:pt-6">
-                    <div className="grid md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-                      <div className="space-y-2 sm:space-y-3 md:space-y-4">
-                        <h3 className="font-semibold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">Informații tehnice</h3>
+                  <CardContent className="pt-4 sm:pt-6">
+                    <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Informații tehnice</h3>
                         <div className="space-y-2 sm:space-y-3">
                           <div className="flex justify-between items-center">
                             <span className="text-xs sm:text-sm text-muted-foreground">Marca</span>
@@ -408,8 +411,8 @@ const CarDetails = () => {
                         </div>
                       </div>
                       
-                      <div className="space-y-2 sm:space-y-3 md:space-y-4">
-                        <h3 className="font-semibold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">Caracteristici</h3>
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Caracteristici</h3>
                         <div className="space-y-2 sm:space-y-3">
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
@@ -438,12 +441,12 @@ const CarDetails = () => {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="features" className="mt-3 sm:mt-4 md:mt-6">
+              <TabsContent value="features" className="mt-4 sm:mt-6">
                 <Card>
-                  <CardContent className="pt-3 sm:pt-4 md:pt-6">
-                    <div className="grid md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
+                  <CardContent className="pt-4 sm:pt-6">
+                    <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                       <div>
-                        <h3 className="font-semibold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">Confort</h3>
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Confort</h3>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
@@ -465,7 +468,7 @@ const CarDetails = () => {
                       </div>
                       
                       <div>
-                        <h3 className="font-semibold text-sm sm:text-base md:text-lg mb-2 sm:mb-3 md:mb-4">Siguranță</h3>
+                        <h3 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">Siguranță</h3>
                         <div className="space-y-2">
                           <div className="flex items-center gap-2">
                             <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 flex-shrink-0" />
@@ -493,40 +496,40 @@ const CarDetails = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="lg:col-span-1 order-1 lg:order-2">
+          <div className="lg:col-span-1">
             {/* Price Card */}
-            <Card className="sticky top-20 sm:top-24 mb-3 sm:mb-4 md:mb-6">
-              <CardHeader className="pb-2 sm:pb-3 md:pb-6">
-                <CardTitle className="text-lg sm:text-xl md:text-2xl text-primary">
+            <Card className="sticky top-24 mb-4 sm:mb-6">
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-xl sm:text-2xl text-primary">
                   €{car.price.toLocaleString()}
                 </CardTitle>
                 {car.monthly_rate && (
-                  <CardDescription className="text-xs sm:text-sm">
+                  <CardDescription className="text-sm">
                     €{car.monthly_rate}/lună cu finanțare
                   </CardDescription>
                 )}
               </CardHeader>
-              <CardContent className="space-y-2 sm:space-y-3 md:space-y-4">
-                <Button className="w-full text-xs sm:text-sm md:text-base" size="lg" onClick={() => handleContact('phone')}>
-                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 mr-1 sm:mr-2" />
+              <CardContent className="space-y-3 sm:space-y-4">
+                <Button className="w-full text-sm sm:text-base" size="lg" onClick={() => handleContact('phone')}>
+                  <Phone className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   Sună acum
                 </Button>
-                <Button variant="outline" className="w-full text-xs sm:text-sm md:text-base" size="lg" onClick={() => navigate('/contact')}>
-                  <Mail className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 mr-1 sm:mr-2" />
+                <Button variant="outline" className="w-full text-sm sm:text-base" size="lg" onClick={() => navigate('/contact')}>
+                  <Mail className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   Solicită ofertă
                 </Button>
               </CardContent>
             </Card>
 
             {/* Contact Info */}
-            <Card className="mb-3 sm:mb-4 md:mb-6">
-              <CardHeader className="pb-2 sm:pb-3 md:pb-6">
-                <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
-                  <Shield className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+            <Card className="mb-4 sm:mb-6">
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
                   Informații contact
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2 sm:space-y-3 md:space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 <div className="flex items-center gap-2 sm:gap-3">
                   <Phone className="h-3 w-3 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
                   <span className="text-xs sm:text-sm">+40 21 123 4567</span>
@@ -544,20 +547,20 @@ const CarDetails = () => {
 
             {/* Quick Actions */}
             <Card>
-              <CardHeader className="pb-2 sm:pb-3 md:pb-6">
-                <CardTitle className="text-sm sm:text-base md:text-lg">Acțiuni rapide</CardTitle>
+              <CardHeader className="pb-3 sm:pb-6">
+                <CardTitle className="text-base sm:text-lg">Acțiuni rapide</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 sm:space-y-3">
                 <Button variant="outline" className="w-full justify-start text-xs sm:text-sm" onClick={() => handleContact('whatsapp')}>
-                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   WhatsApp
                 </Button>
                 <Button variant="outline" className="w-full justify-start text-xs sm:text-sm" onClick={() => handleContact('phone')}>
-                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <Phone className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   Programează test drive
                 </Button>
                 <Button variant="outline" className="w-full justify-start text-xs sm:text-sm" onClick={() => handleContact('email')}>
-                  <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                  <Mail className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   Solicită mai multe poze
                 </Button>
               </CardContent>
@@ -567,11 +570,11 @@ const CarDetails = () => {
 
         {/* Similar Cars */}
         <div className="mt-8 sm:mt-12 md:mt-16">
-          <h2 className="text-lg sm:text-xl md:text-2xl font-bold font-heading mb-3 sm:mb-4 md:mb-6">Mașini similare</h2>
-          <div className="grid md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+          <h2 className="text-xl sm:text-2xl font-bold font-heading mb-4 sm:mb-6">Mașini similare</h2>
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
             {/* TODO: Add similar cars component */}
-            <div className="text-center p-4 sm:p-6 md:p-8 bg-muted rounded-lg">
-              <Car className="h-6 w-6 sm:h-8 sm:w-8 md:h-12 md:w-12 mx-auto mb-2 sm:mb-3 md:mb-4 text-muted-foreground" />
+            <div className="text-center p-6 sm:p-8 bg-muted rounded-lg">
+              <Car className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 text-muted-foreground" />
               <p className="text-xs sm:text-sm text-muted-foreground">Mașini similare vor fi afișate aici</p>
             </div>
           </div>
