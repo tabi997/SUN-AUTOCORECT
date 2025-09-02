@@ -27,7 +27,7 @@ const Testimonials = () => {
   ];
 
   const stats = [
-    { number: "40+", label: "Mașini vândute" },
+    { number: "500+", label: "Mașini vândute" },
     { number: "20", label: "Ani de experiență" },
     { number: "2008", label: "Anul înființării" },
     { number: "100%", label: "Clienți mulțumiți" }

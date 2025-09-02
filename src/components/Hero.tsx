@@ -127,7 +127,7 @@ const Hero = () => {
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
         <div className="flex items-center space-x-8 text-center">
           <div>
-            <div className="text-2xl font-bold text-primary">40+</div>
+            <div className="text-2xl font-bold text-primary">500+</div>
             <div className="text-sm text-muted-foreground">Mașini vândute</div>
           </div>
           <div className="w-px h-12 bg-border"></div>
