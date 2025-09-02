@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Heart, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -7,8 +8,8 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { label: "Acasă", href: "#" },
-    { label: "Mașini în stoc", href: "#stock" },
+    { label: "Acasă", href: "/" },
+    { label: "Mașini în Stoc", href: "/masini-in-stoc" },
     { label: "Mașină la comandă", href: "#custom" },
     { label: "Finanțare", href: "#financing" },
     { label: "Vinde mașina", href: "#sell" },
@@ -38,13 +39,13 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className="text-foreground hover:text-primary transition-colors duration-300"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -53,10 +54,12 @@ const Navigation = () => {
             <Button variant="ghost" size="icon">
               <Heart className="h-5 w-5" />
             </Button>
-            <Button variant="outline">
-              <User className="h-4 w-4 mr-2" />
-              Autentificare
-            </Button>
+            <Link to="/login">
+              <Button variant="outline">
+                <User className="h-4 w-4 mr-2" />
+                Autentificare
+              </Button>
+            </Link>
             <Button variant="solar">Înregistrare</Button>
           </div>
 
@@ -80,20 +83,22 @@ const Navigation = () => {
         >
           <div className="flex flex-col space-y-3 pt-4">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className="text-foreground hover:text-primary transition-colors duration-300 py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
             <div className="flex flex-col space-y-2 pt-4 border-t border-border">
-              <Button variant="outline" className="justify-start">
-                <User className="h-4 w-4 mr-2" />
-                Autentificare
-              </Button>
+              <Link to="/login">
+                <Button variant="outline" className="justify-start w-full">
+                  <User className="h-4 w-4 mr-2" />
+                  Autentificare
+                </Button>
+              </Link>
               <Button variant="solar">Înregistrare</Button>
             </div>
           </div>

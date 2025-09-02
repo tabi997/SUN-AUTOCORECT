@@ -1,41 +1,35 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Eye, Calendar, Gauge, Fuel, Settings } from "lucide-react";
+import { Heart, Eye, Calendar, Gauge, Fuel, Settings, Images } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CarWithImages } from "@/lib/supabase";
 
 interface CarCardProps {
-  id: number;
-  brand: string;
-  model: string;
-  year: number;
-  kilometers: number;
-  fuel: string;
-  power: number;
-  transmission: string;
-  price: number;
-  monthly_rate?: number;
-  featured?: boolean;
-  image_url?: string;
-  description?: string;
+  car: CarWithImages;
   className?: string;
 }
 
-const CarCard = ({
-  id,
-  brand,
-  model,
-  year,
-  kilometers,
-  fuel,
-  power,
-  transmission,
-  price,
-  monthly_rate,
-  featured = false,
-  image_url,
-  description,
-  className
-}: CarCardProps) => {
+const CarCard = ({ car, className }: CarCardProps) => {
+  const {
+    id,
+    brand,
+    model,
+    year,
+    kilometers,
+    fuel,
+    power,
+    transmission,
+    price,
+    monthly_rate,
+    featured = false,
+    image_url,
+    description,
+    images
+  } = car;
+
+  // Obține imaginea principală sau fallback la image_url
+  const primaryImage = images.find(img => img.is_primary)?.image_url || image_url;
+
   return (
     <div className={cn(
       "group bg-card border border-border rounded-2xl overflow-hidden hover:shadow-card transition-all duration-300 hover:-translate-y-1",
@@ -44,9 +38,9 @@ const CarCard = ({
     )}>
       {/* Image Container */}
       <div className="relative overflow-hidden">
-        {image_url ? (
+        {primaryImage ? (
           <img
-            src={image_url}
+            src={primaryImage}
             alt={`${brand} ${model}`}
             className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
           />
@@ -77,6 +71,14 @@ const CarCard = ({
         {featured && (
           <Badge className="absolute top-4 left-4 bg-gradient-solar">
             Premium
+          </Badge>
+        )}
+
+        {/* Images Count Badge */}
+        {images.length > 0 && (
+          <Badge variant="secondary" className="absolute bottom-4 left-4 bg-background/80 backdrop-blur-sm">
+            <Images className="h-3 w-3 mr-1" />
+            {images.length} foto
           </Badge>
         )}
       </div>
@@ -115,8 +117,17 @@ const CarCard = ({
 
         {/* Power */}
         <div className="mb-4">
-          <Badge variant="outline">{power} CP</Badge>
+          <Badge variant="outline" className="text-sm">
+            {power} CP
+          </Badge>
         </div>
+
+        {/* Description */}
+        {description && (
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+            {description}
+          </p>
+        )}
 
         {/* Price */}
         <div className="mb-4">
@@ -125,18 +136,19 @@ const CarCard = ({
           </div>
           {monthly_rate && (
             <div className="text-sm text-muted-foreground">
-              de la €{monthly_rate}/lună
+              €{monthly_rate}/lună
             </div>
           )}
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3">
-          <Button variant="solar" className="flex-1 hover:shadow-sunrise">
+        <div className="flex gap-2">
+          <Button variant="outline" className="flex-1">
+            <Eye className="h-4 w-4 mr-2" />
             Vezi detalii
           </Button>
-          <Button variant="outline" size="icon">
-            <Heart className="h-4 w-4" />
+          <Button className="flex-1">
+            Contactează
           </Button>
         </div>
       </div>
