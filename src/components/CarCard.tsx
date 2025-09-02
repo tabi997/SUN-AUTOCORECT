@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Eye, Calendar, Gauge, Fuel, Settings, Images } from "lucide-react";
+import { Heart, Eye, Calendar, Gauge, Fuel, Settings, Images, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CarWithImages } from "@/lib/supabase";
 import { Link } from "react-router-dom";
@@ -30,6 +30,12 @@ const CarCard = ({ car, className }: CarCardProps) => {
 
   // Obține imaginea principală sau fallback la image_url
   const primaryImage = images.find(img => img.is_primary)?.image_url || image_url;
+
+  const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
+
+  const handleContactClick = () => {
+    window.location.href = `tel:${phoneNumber.replace(/\s/g, "")}`;
+  };
 
   return (
     <div className={cn(
@@ -154,7 +160,8 @@ const CarCard = ({ car, className }: CarCardProps) => {
               Vezi detalii
             </Button>
           </Link>
-          <Button className="flex-1">
+          <Button onClick={handleContactClick} className="flex-1">
+            <Phone className="h-4 w-4 mr-2" />
             Contactează
           </Button>
         </div>

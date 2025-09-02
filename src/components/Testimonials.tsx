@@ -27,19 +27,19 @@ const Testimonials = () => {
   ];
 
   const stats = [
-    { number: "387+", label: "Mașini în stoc" },
-    { number: "5", label: "Ani de experiență" },
-    { number: "2022", label: "Anul înființării" },
+    { number: "40+", label: "Mașini vândute" },
+    { number: "20", label: "Ani de experiență" },
+    { number: "2008", label: "Anul înființării" },
     { number: "100%", label: "Clienți mulțumiți" }
   ];
 
   const brands = [
-    { name: "BMW", icon: "🚗" },
-    { name: "Audi", icon: "🚙" },
-    { name: "Mercedes", icon: "🚐" },
-    { name: "Volkswagen", icon: "🚕" },
-    { name: "Toyota", icon: "🚖" },
-    { name: "Hyundai", icon: "🚓" }
+    { name: "PORSCHE" },
+    { name: "BMW" },
+    { name: "AUDI" },
+    { name: "MERCEDES" },
+    { name: "DACIA" },
+    { name: "VOLKSWAGEN" }
   ];
 
   return (
@@ -110,11 +110,23 @@ const Testimonials = () => {
         {/* Popular Brands */}
         <div>
           <h3 className="text-xl font-bold text-center mb-8">Mărci auto populare</h3>
-          <div className="flex flex-wrap justify-center items-center gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {brands.map((brand, index) => (
-              <div key={index} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
-                <span className="text-2xl">{brand.icon}</span>
-                <span className="font-medium">{brand.name}</span>
+              <div key={index} className="group relative">
+                <div className="bg-gradient-to-br from-card to-card/80 border border-border/50 rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30 hover:scale-105">
+                  {/* Solar accent line */}
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  {/* Brand name with premium typography */}
+                  <div className="font-bold text-lg tracking-wider text-foreground group-hover:text-primary transition-colors duration-300">
+                    {brand.name}
+                  </div>
+                  
+                  {/* Subtle sun icon overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+                    <div className="w-16 h-16 bg-gradient-solar rounded-full"></div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

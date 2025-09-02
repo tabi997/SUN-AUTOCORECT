@@ -124,10 +124,11 @@ const StockCars = () => {
     navigate(`/masina/${carId}`)
   }
 
+  const phoneNumber = "+40 745 123 456"; // Placeholder for the phone number
+
   const handleContactClick = (e: React.MouseEvent, carId: string | number) => {
     e.stopPropagation() // Previne propagarea click-ului către card
-    // TODO: Implement contact functionality
-    console.log('Contact clicked for car:', carId)
+    window.location.href = `tel:${phoneNumber.replace(/\s/g, "")}`;
   }
 
   if (loading) {

@@ -35,66 +35,6 @@ const About = () => {
     }
   ];
 
-  const team = [
-    {
-      name: "Ion Popescu",
-      position: "CEO & Fondator",
-      description: "Expert în industria auto cu peste 20 de ani de experiență",
-      image: "/placeholder.svg"
-    },
-    {
-      name: "Maria Ionescu",
-      position: "Manager Vânzări",
-      description: "Specialistă în relații cu clienții și strategii de vânzare",
-      image: "/placeholder.svg"
-    },
-    {
-      name: "Alexandru Dumitrescu",
-      position: "Manager Tehnic",
-      description: "Inginer mecanic cu expertiză în evaluarea vehiculelor",
-      image: "/placeholder.svg"
-    },
-    {
-      name: "Elena Vasilescu",
-      position: "Manager Financiar",
-      description: "Expert în finanțare auto și relații cu băncile partenere",
-      image: "/placeholder.svg"
-    }
-  ];
-
-  const milestones = [
-    {
-      year: "2009",
-      title: "Fondarea companiei",
-      description: "SUN AUTOCORECT a fost înființată cu visul de a oferi servicii auto de calitate"
-    },
-    {
-      year: "2012",
-      title: "Primul showroom",
-      description: "Am deschis primul showroom modern în centrul orașului"
-    },
-    {
-      year: "2015",
-      title: "1000 de mașini vândute",
-      description: "Am atins primul milestone important în istoria companiei"
-    },
-    {
-      year: "2018",
-      title: "Expansiunea serviciilor",
-      description: "Am lansat serviciile de finanțare și vânzare mașini"
-    },
-    {
-      year: "2021",
-      title: "Showroom digital",
-      description: "Am implementat soluții digitale pentru o experiență client superioară"
-    },
-    {
-      year: "2024",
-      title: "5000+ mașini vândute",
-      description: "Continuăm să creștem și să îmbunătățim serviciile noastre"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       <Navigation />
@@ -173,48 +113,6 @@ const About = () => {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-
-        {/* Team Section */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold font-heading text-center mb-12">Echipa noastră</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, index) => (
-              <Card key={index} className="text-center">
-                <CardContent className="pt-6">
-                  <div className="w-24 h-24 bg-muted rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <Users className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                  <h3 className="font-semibold mb-1">{member.name}</h3>
-                  <p className="text-sm text-primary mb-2">{member.position}</p>
-                  <p className="text-xs text-muted-foreground">{member.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Milestones Section */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold font-heading text-center mb-12">Milestone-urile noastre</h2>
-          <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-primary/20"></div>
-            <div className="space-y-8">
-              {milestones.map((milestone, index) => (
-                <div key={index} className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-                  <div className="w-1/2 px-6">
-                    <div className={`text-right ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
-                      <div className="text-2xl font-bold text-primary mb-2">{milestone.year}</div>
-                      <h3 className="font-semibold mb-2">{milestone.title}</h3>
-                      <p className="text-sm text-muted-foreground">{milestone.description}</p>
-                    </div>
-                  </div>
-                  <div className="w-4 h-4 bg-primary rounded-full relative z-10"></div>
-                  <div className="w-1/2 px-6"></div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
 
