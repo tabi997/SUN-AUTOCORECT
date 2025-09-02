@@ -224,15 +224,15 @@ Descriere: ${formData.description || 'Fără descriere'}`;
 
         {/* Simple Steps */}
         <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             {steps.map((step, index) => (
               <div key={index} className="flex items-center">
                 <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold">
                   {index + 1}
                 </div>
-                <span className="ml-2 text-sm text-muted-foreground">{step}</span>
+                <span className="ml-2 text-sm text-muted-foreground hidden sm:inline">{step}</span>
                 {index < steps.length - 1 && (
-                  <div className="w-8 h-1 bg-border mx-2" />
+                  <div className="w-8 h-1 bg-border mx-2 hidden sm:block" />
                 )}
               </div>
             ))}
@@ -253,7 +253,7 @@ Descriere: ${formData.description || 'Fără descriere'}`;
               <div className="space-y-4">
                 <h3 className="font-semibold text-lg">Detalii mașină</h3>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium">Marca *</label>
                     <Input
@@ -283,7 +283,7 @@ Descriere: ${formData.description || 'Fără descriere'}`;
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium">Anul *</label>
                     <Select 
@@ -323,7 +323,7 @@ Descriere: ${formData.description || 'Fără descriere'}`;
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium">Combustibil</label>
                     <Select 
@@ -364,7 +364,7 @@ Descriere: ${formData.description || 'Fără descriere'}`;
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium">Starea generală</label>
                     <Select 
@@ -422,7 +422,7 @@ Descriere: ${formData.description || 'Fără descriere'}`;
               <div className="space-y-4">
                 <h3 className="font-semibold text-lg">Date de contact</h3>
                 
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div>
                     <label className="text-sm font-medium">Numele *</label>
                     <Input

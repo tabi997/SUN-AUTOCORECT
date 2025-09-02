@@ -39,6 +39,14 @@ const DashboardStats = () => {
         })
       } catch (error) {
         console.error('Eroare la încărcarea statisticilor:', error)
+        setStats({
+          totalCars: 0,
+          featuredCars: 0,
+          totalLeads: 0,
+          newLeads: 0,
+          totalSubscriptions: 0,
+          activeSubscriptions: 0
+        })
       } finally {
         setLoading(false)
       }

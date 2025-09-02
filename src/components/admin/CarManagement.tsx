@@ -64,6 +64,8 @@ const CarManagement = () => {
       const data = await carService.getAllCars()
       setCars(data)
     } catch (error) {
+      console.error('Eroare la încărcarea mașinilor:', error)
+      setCars([])
       toast({
         title: "Eroare",
         description: "Nu s-au putut încărca mașinile",

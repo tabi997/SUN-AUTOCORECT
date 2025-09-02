@@ -35,8 +35,17 @@ const Admin = () => {
   }
 
   if (!user) {
-    navigate('/login')
-    return null
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Acces Restricționat</h1>
+          <p className="text-muted-foreground mb-6">Trebuie să te autentifici pentru a accesa panoul de administrare.</p>
+          <Button onClick={() => navigate('/login')} variant="solar">
+            Mergi la Login
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   return (
