@@ -13,9 +13,7 @@ const Hero = () => {
     navigate("/masini-in-stoc");
   };
 
-  const handleSellCar = () => {
-    navigate("/vinde-masina");
-  };
+
 
   const handleSearch = () => {
     // Navighează către pagina de stoc cu query-ul de căutare
@@ -104,12 +102,7 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Quick Actions */}
-          <div className="flex flex-wrap gap-4 mt-6 sm:mt-8 justify-center lg:justify-start">
-            <Button variant="outline" size="lg" onClick={handleSellCar} className="w-full sm:w-auto">
-              Vinde mașina ta
-            </Button>
-          </div>
+
 
 
         </div>
