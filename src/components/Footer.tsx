@@ -1,8 +1,62 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, Shield, FileText, Cookie, UserCheck, Sun } from "lucide-react";
+import { useState } from "react";
+import { newsletterService } from "@/lib/services";
+import { useToast } from "@/hooks/use-toast";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubscribe = async () => {
+    // Validare email
+    if (!email || !email.includes('@')) {
+      toast({
+        title: "Email invalid",
+        description: "Te rugăm să introduci o adresă de email validă",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubscribing(true);
+    
+    try {
+      await newsletterService.createSubscription(email);
+      toast({
+        title: "Abonare reușită!",
+        description: "Te-ai abonat cu succes la newsletter-ul nostru",
+      });
+      setEmail(""); // Reset email input
+    } catch (error: unknown) {
+      // Verifică dacă email-ul există deja
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('duplicate') || errorMessage.includes('already exists')) {
+        toast({
+          title: "Email deja abonat",
+          description: "Această adresă de email este deja abonată la newsletter",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Eroare la abonare",
+          description: "A apărut o eroare. Te rugăm să încerci din nou",
+          variant: "destructive"
+        });
+      }
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSubscribe();
+    }
+  };
+
   const quickLinks = [
     { label: "Acasă", href: "/" },
     { label: "Mașini în stoc", href: "/masini-in-stoc" },
@@ -124,9 +178,12 @@ const Footer = () => {
                   <Input 
                     placeholder="Email-ul tău"
                     className="flex-1 text-xs sm:text-sm h-8 sm:h-9"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={handleKeyDown}
                   />
-                  <Button variant="solar" size="sm" className="h-8 sm:h-9 px-3 text-xs sm:text-sm">
-                    Abonează-te
+                  <Button variant="solar" size="sm" className="h-8 sm:h-9 px-3 text-xs sm:text-sm" onClick={handleSubscribe} disabled={isSubscribing}>
+                    {isSubscribing ? "Abonând..." : "Abonează-te"}
                   </Button>
                 </div>
 
