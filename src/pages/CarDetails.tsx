@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -110,8 +111,9 @@ const CarDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background pt-20">
-        <div className="container mx-auto px-4 py-12">
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-12 pt-20">
           <div className="animate-pulse">
             <div className="h-8 bg-muted rounded w-1/4 mb-4"></div>
             <div className="h-96 bg-muted rounded mb-8"></div>
@@ -128,8 +130,9 @@ const CarDetails = () => {
 
   if (!car) {
     return (
-      <div className="min-h-screen bg-background pt-20">
-        <div className="container mx-auto px-4 py-12 text-center">
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-12 pt-20 text-center">
           <h1 className="text-2xl font-bold mb-4">Mașina nu a fost găsită</h1>
           <Button onClick={() => navigate('/masini-in-stoc')}>
             Înapoi la mașini
@@ -142,8 +145,9 @@ const CarDetails = () => {
   const primaryImage = car.images.find(img => img.is_primary)?.image_url || car.image_url;
 
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      <div className="container mx-auto px-4 py-8 pt-20">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
           <Button variant="ghost" size="sm" onClick={() => navigate('/masini-in-stoc')}>

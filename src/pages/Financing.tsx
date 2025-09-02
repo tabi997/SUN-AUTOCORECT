@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -136,8 +137,9 @@ const Financing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 pt-20">
-      <div className="container mx-auto px-4 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <Navigation />
+      <div className="container mx-auto px-4 py-12 pt-20">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
