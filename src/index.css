@@ -153,6 +153,16 @@
     display: none;  /* Safari and Chrome */
   }
 
+  /* No scrollbar utility for thumbnails */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* Mobile image zoom styles */
   .image-zoom-overlay {
     position: fixed;

@@ -38,7 +38,7 @@ const FloatingButtons = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-4">
+    <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-4 hidden md:flex">
       {/* Contact Button - Enhanced with solar theme */}
       <div className="relative group">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-accent/40 rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
