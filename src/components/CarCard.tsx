@@ -4,7 +4,7 @@ import { Heart, Eye, Calendar, Gauge, Fuel, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CarCardProps {
-  image: string;
+  id: number;
   brand: string;
   model: string;
   year: number;
@@ -13,13 +13,15 @@ interface CarCardProps {
   power: number;
   transmission: string;
   price: number;
-  monthlyRate?: number;
+  monthly_rate?: number;
   featured?: boolean;
+  image_url?: string;
+  description?: string;
   className?: string;
 }
 
 const CarCard = ({
-  image,
+  id,
   brand,
   model,
   year,
@@ -28,8 +30,10 @@ const CarCard = ({
   power,
   transmission,
   price,
-  monthlyRate,
+  monthly_rate,
   featured = false,
+  image_url,
+  description,
   className
 }: CarCardProps) => {
   return (
@@ -40,11 +44,22 @@ const CarCard = ({
     )}>
       {/* Image Container */}
       <div className="relative overflow-hidden">
-        <img
-          src={image}
-          alt={`${brand} ${model}`}
-          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-        />
+        {image_url ? (
+          <img
+            src={image_url}
+            alt={`${brand} ${model}`}
+            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : (
+          <div className="w-full h-48 bg-muted flex items-center justify-center">
+            <div className="text-muted-foreground text-center">
+              <div className="w-16 h-16 bg-muted-foreground/20 rounded-full flex items-center justify-center mx-auto mb-2">
+                <Calendar className="h-8 w-8" />
+              </div>
+              <p className="text-sm">Fără imagine</p>
+            </div>
+          </div>
+        )}
         
         {/* Overlay Actions */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300">
@@ -108,9 +123,9 @@ const CarCard = ({
           <div className="text-2xl font-bold text-primary">
             €{price.toLocaleString()}
           </div>
-          {monthlyRate && (
+          {monthly_rate && (
             <div className="text-sm text-muted-foreground">
-              de la €{monthlyRate}/lună
+              de la €{monthly_rate}/lună
             </div>
           )}
         </div>
