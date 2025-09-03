@@ -13,7 +13,6 @@ import {
   Filter, 
   Grid3X3, 
   List, 
-  SlidersHorizontal,
   MapPin,
   Calendar,
   Gauge,
@@ -43,7 +42,7 @@ const StockCars = () => {
     minYear: searchParams.get('minYear') || searchParams.get('year') || '',
     maxYear: searchParams.get('maxYear') || ''
   })
-  const [showFilters, setShowFilters] = useState(false)
+  const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-asc' | 'year-desc' | 'default'>('default')
   const { toast } = useToast()
   const navigate = useNavigate()
   const { contactInfo } = useContact()
@@ -97,6 +96,22 @@ const StockCars = () => {
     return searchMatch && brandMatch && modelMatch && fuelMatch && transmissionMatch && priceMatch && yearMatch
   })
 
+  // Sort cars based on selected criteria
+  const sortedCars = [...filteredCars].sort((a, b) => {
+    switch (sortBy) {
+      case 'price-asc':
+        return a.price - b.price
+      case 'price-desc':
+        return b.price - a.price
+      case 'year-asc':
+        return a.year - b.year
+      case 'year-desc':
+        return b.year - a.year
+      default:
+        return 0 // Keep original order
+    }
+  })
+
   const brands = [...new Set(cars.map(car => car.brand))]
   const fuels = [...new Set(cars.map(car => car.fuel))]
   const transmissions = [...new Set(cars.map(car => car.transmission))]
@@ -113,6 +128,7 @@ const StockCars = () => {
       minYear: '',
       maxYear: ''
     })
+    setSortBy('default')
   }
 
   const getPrimaryImage = (car: CarWithImages) => {
@@ -213,17 +229,7 @@ const StockCars = () => {
       <section className="py-4 sm:py-6 lg:py-8 border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-            <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2 text-xs sm:text-sm"
-              >
-                <SlidersHorizontal className="h-3 w-3 sm:h-4 sm:w-4" />
-                Filtre
-              </Button>
-              
+            <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto flex-wrap">
               <Button
                 variant="outline"
                 size="sm"
@@ -234,7 +240,20 @@ const StockCars = () => {
               </Button>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+                <SelectTrigger className="w-32 sm:w-40 h-8 sm:h-9 text-xs sm:text-sm">
+                  <SelectValue placeholder="Sortează" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="default">Implicit</SelectItem>
+                  <SelectItem value="price-asc">Preț ↑</SelectItem>
+                  <SelectItem value="price-desc">Preț ↓</SelectItem>
+                  <SelectItem value="year-asc">An ↑</SelectItem>
+                  <SelectItem value="year-desc">An ↓</SelectItem>
+                </SelectContent>
+              </Select>
+              
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'outline'}
                 size="sm"
@@ -254,84 +273,14 @@ const StockCars = () => {
             </div>
           </div>
 
-          {/* Advanced Filters */}
-          {showFilters && (
-            <div className="mt-4 sm:mt-6 p-4 sm:p-6 bg-muted/30 rounded-lg">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                <div>
-                  <label className="text-xs sm:text-sm font-medium mb-2 block">Marcă</label>
-                  <Select value={filters.brand} onValueChange={(value) => setFilters({ ...filters, brand: value })}>
-                    <SelectTrigger className="h-9 sm:h-10">
-                      <SelectValue placeholder="Toate mărcile" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">Toate mărcile</SelectItem>
-                      {brands.map(brand => (
-                        <SelectItem key={brand} value={brand}>{brand}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
 
-                <div>
-                  <label className="text-xs sm:text-sm font-medium mb-2 block">Combustibil</label>
-                  <Select value={filters.fuel} onValueChange={(value) => setFilters({ ...filters, fuel: value })}>
-                    <SelectTrigger className="h-9 sm:h-10">
-                      <SelectValue placeholder="Toate tipurile" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">Toate tipurile</SelectItem>
-                      {fuels.map(fuel => (
-                        <SelectItem key={fuel} value={fuel}>{fuel}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-xs sm:text-sm font-medium mb-2 block">Transmisie</label>
-                  <Select value={filters.transmission} onValueChange={(value) => setFilters({ ...filters, transmission: value })}>
-                    <SelectTrigger className="h-9 sm:h-10">
-                      <SelectValue placeholder="Toate tipurile" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">Toate tipurile</SelectItem>
-                      {transmissions.map(trans => (
-                        <SelectItem key={trans} value={trans}>{trans}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-xs sm:text-sm font-medium mb-2 block">Preț (€)</label>
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="Min"
-                      type="number"
-                      value={filters.minPrice}
-                      onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                      className="text-xs sm:text-sm h-9 sm:h-10"
-                    />
-                    <Input
-                      placeholder="Max"
-                      type="number"
-                      value={filters.maxPrice}
-                      onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                      className="text-xs sm:text-sm h-9 sm:h-10"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </section>
 
       {/* Cars Grid/List */}
       <section className="py-8 sm:py-12 lg:py-16">
         <div className="container mx-auto px-4">
-          {filteredCars.length === 0 ? (
+          {sortedCars.length === 0 ? (
             <div className="text-center py-12 sm:py-16">
               <Car className="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-4 text-muted-foreground" />
               <h3 className="text-lg sm:text-xl font-semibold mb-2">Nu s-au găsit mașini</h3>
@@ -346,13 +295,13 @@ const StockCars = () => {
             <>
               <div className="mb-6 sm:mb-8">
                 <p className="text-sm sm:text-base text-muted-foreground">
-                  Afișez {filteredCars.length} din {cars.length} mașini
+                  Afișez {sortedCars.length} din {cars.length} mașini
                 </p>
               </div>
 
               {viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                  {filteredCars.map((car) => (
+                  {sortedCars.map((car) => (
                     <Card 
                       key={car.id} 
                       className="group hover:shadow-lg transition-all duration-300 cursor-pointer"
@@ -445,7 +394,7 @@ const StockCars = () => {
                 </div>
               ) : (
                 <div className="space-y-3 sm:space-y-4">
-                  {filteredCars.map((car) => (
+                  {sortedCars.map((car) => (
                     <Card 
                       key={car.id} 
                       className="group hover:shadow-md transition-all duration-300 cursor-pointer"
