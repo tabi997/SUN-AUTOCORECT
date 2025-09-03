@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { StickyCTA } from "@/components/StickyCTA";
@@ -29,6 +29,8 @@ import { CarWithImages } from "@/lib/supabase";
 import { carService } from "@/lib/services";
 import { useToast } from "@/hooks/use-toast";
 import { useContact } from "@/lib/contact-context";
+import { useSwipe } from "@/hooks/use-swipe";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -39,6 +41,8 @@ const CarDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const { contactInfo } = useContact();
+  const isMobile = useIsMobile();
+  const imageGalleryRef = useRef<HTMLDivElement>(null);
 
   // Fetch car data based on ID from URL
   useEffect(() => {
@@ -72,24 +76,6 @@ const CarDetails = () => {
     fetchCar();
   }, [id, toast]);
 
-  // Keyboard navigation for images
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!car || car.images.length <= 1) return;
-      
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        handlePreviousImage();
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        handleNextImage();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [car]);
-
   const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
   };
@@ -109,6 +95,55 @@ const CarDetails = () => {
       );
     }
   };
+
+  // Swipe functionality for mobile
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: () => {
+      if (isMobile && car && car.images.length > 1) {
+        handleNextImage();
+      }
+    },
+    onSwipeRight: () => {
+      if (isMobile && car && car.images.length > 1) {
+        handlePreviousImage();
+      }
+    },
+    threshold: 50
+  });
+
+  // Keyboard navigation for images
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!car || car.images.length <= 1) return;
+      
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        handlePreviousImage();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        handleNextImage();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [car]);
+
+  // Touch event listeners for swipe functionality
+  useEffect(() => {
+    const galleryElement = imageGalleryRef.current;
+    if (!galleryElement || !isMobile || !car || car.images.length <= 1) return;
+
+    galleryElement.addEventListener('touchstart', swipeHandlers.onTouchStart, { passive: true });
+    galleryElement.addEventListener('touchmove', swipeHandlers.onTouchMove, { passive: true });
+    galleryElement.addEventListener('touchend', swipeHandlers.onTouchEnd, { passive: true });
+
+    return () => {
+      galleryElement.removeEventListener('touchstart', swipeHandlers.onTouchStart);
+      galleryElement.removeEventListener('touchmove', swipeHandlers.onTouchMove);
+      galleryElement.removeEventListener('touchend', swipeHandlers.onTouchEnd);
+    };
+  }, [isMobile, car, swipeHandlers]);
 
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -249,7 +284,10 @@ const CarDetails = () => {
               {/* Image Gallery */}
               <div className="mb-4 sm:mb-6 md:mb-8">
                 {/* Mobile: Natural image size, Desktop: Fixed aspect ratio */}
-                <div className="relative w-full sm:aspect-video sm:rounded-2xl sm:overflow-hidden mb-3 sm:mb-4 group bg-muted/20">
+                <div 
+                  ref={imageGalleryRef}
+                  className="relative w-full sm:aspect-video sm:rounded-2xl sm:overflow-hidden mb-3 sm:mb-4 group bg-muted/20"
+                >
                   <div className="w-full sm:h-full flex items-center justify-center">
                     <img
                       src={car.images[selectedImageIndex]?.image_url || primaryImage}
@@ -344,6 +382,13 @@ const CarDetails = () => {
                   {car.images.length > 1 && (
                     <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-background/80 backdrop-blur-sm px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                       {selectedImageIndex + 1} / {car.images.length}
+                    </div>
+                  )}
+                  
+                  {/* Swipe indicator for mobile */}
+                  {isMobile && car.images.length > 1 && (
+                    <div className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-background/80 backdrop-blur-sm px-2 py-1 rounded-full text-xs text-muted-foreground">
+                      ← Swipe →
                     </div>
                   )}
                 </div>
